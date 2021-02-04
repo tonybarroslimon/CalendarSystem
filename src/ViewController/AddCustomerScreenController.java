@@ -123,8 +123,10 @@ public class AddCustomerScreenController implements Initializable {
                             firstLevelDivisionsResultsSet.getString("Last_Updated_By"),
                             firstLevelDivisionsResultsSet.getInt("COUNTRY_ID")
                     ));
+                }
 
-                    //firstLevelListView.getItems().addAll(firstLevelObjects.getDivision());
+                for (FirstLevelDivisions firstLevelDivisions: firstLevelObjects) {
+                    firstLevelListView.getItems().addAll(firstLevelDivisions.getDivision());
                 }
 
         } catch (SQLException | ClassNotFoundException throwables) {

@@ -7,3 +7,6 @@ INFO:
 Feb 03, 2021 10:48:39 PM ViewController.LoginScreenController writeToFile
 INFO: 
 2021-02-04T06:48:39.058696Z Login Successful
+Feb 04, 2021 11:46:48 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-04T19:46:48.189502Z Login Successful
