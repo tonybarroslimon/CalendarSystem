@@ -1,5 +1,6 @@
 package ViewController;
 
+import Model.Contacts;
 import Utilites.ConnectDB;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -45,7 +46,7 @@ public class AddAppointmentScreenController implements Initializable {
     @FXML private TextField userIDTextField;
     @FXML private Button saveButton;
     @FXML private Button cancelButton;
-    @FXML private ObservableList contactStrings = FXCollections.observableArrayList();
+    @FXML private ObservableList<Contacts> contactsForComboBox = FXCollections.observableArrayList();
     private ResultSet contactResultSet;
 
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
@@ -68,8 +69,10 @@ public class AddAppointmentScreenController implements Initializable {
         String startTimeField = startTimeComboBox.getSelectionModel().getSelectedItem().toString();
         String endDateField = endDatePicker.getValue().toString();
         String endTimeField = endTimeComboBox.getSelectionModel().getSelectedItem().toString();
-        String customerIDField = customerIDTextField.getText();
-        String userIDField = userIDTextField.getText();
+        int customerIDField = Integer.parseInt(customerIDTextField.getText());
+        int userIDField = Integer.parseInt(userIDTextField.getText());
+
+
 
         loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
     }
@@ -106,10 +109,16 @@ public class AddAppointmentScreenController implements Initializable {
                     "SELECT * FROM contacts;");
 
             while (contactResultSet.next()) {
-                contactStrings.add(contactResultSet.getString("Contact_Name"));
+                contactsForComboBox.addAll(new Contacts(
+                        contactResultSet.getInt("Contact_ID"),
+                        contactResultSet.getString("Contact_Name"),
+                        contactResultSet.getString("Email")
+                ));
             }
 
-            contactComboBox.setItems(contactStrings);
+            for (Contacts contact: contactsForComboBox) {
+                contactComboBox.getItems().addAll(contact.getContactName());
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
