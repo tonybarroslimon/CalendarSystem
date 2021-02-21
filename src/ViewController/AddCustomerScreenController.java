@@ -6,7 +6,6 @@ import Utilites.ConnectDB;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,13 +47,9 @@ public class AddCustomerScreenController implements Initializable {
     private ResultSet firstLevelDivisionsResultsSet;
     @FXML private ObservableList<Countries> countryObjects = FXCollections.observableArrayList();
     @FXML private ObservableList<FirstLevelDivisions> firstLevelObjects = FXCollections.observableArrayList();
-    @FXML private FilteredList<FirstLevelDivisions> filteredFirstLevelObjects = new FilteredList<>(firstLevelObjects, c -> true);
+    @FXML private String selectedCountry;
+    @FXML private int selectedCountryId;
 
-    @FXML private int selectedCountryID = 0;
-    @FXML private int countrySelectedIndex;
-    @FXML private Object selectedCountry;
-
-    @FXML private int firstLevelCountryID;
 
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
@@ -90,33 +85,35 @@ public class AddCustomerScreenController implements Initializable {
         }
     }
 
+    public ObservableList<FirstLevelDivisions> filteredAreas(int countryId) {
+        ObservableList<FirstLevelDivisions> filteredList = FXCollections.observableArrayList();
+        for (FirstLevelDivisions countryToFilter: firstLevelObjects) {
+            if (countryToFilter.getCountryId() == countryId) {
+                filteredList.add(countryToFilter);
+            }
+        }
+        return filteredList;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // LAMBDA expression to handle the selection of the country from the country combo box
         countryComboBox.setOnAction((event) -> {
-            countrySelectedIndex = countryComboBox.getSelectionModel().getSelectedIndex();
-            selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+            selectedCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
+            firstLevelListView.getItems().clear();
 
-
-            firstLevelListView.getItems().addAll(filteredFirstLevelObjects);
-        });
-
-        /*countryComboBox.valueProperty().addListener(obs->{
-            for (FirstLevelDivisions countryToFilter: firstLevelObjects) {
-                if (countryToFilter.getCountryId() == selectedCountryID) {
-                    filteredFirstLevelObjects.add(countryToFilter);
+            for (Countries selectedCountryToFilter: countryObjects) {
+                if (selectedCountryToFilter.getCountry() == selectedCountry) {
+                    selectedCountryId = selectedCountryToFilter.getCountryId();
                 }
-            } for (FirstLevelDivisions f: filteredFirstLevelObjects) {
-                System.out.println(f.getDivision());
             }
-            System.out.println(countryComboBox.getSelectionModel().getSelectedItem().get)
-            //filteredFirstLevelObjects.clear();
 
-            //firstLevelListView.setPredicate(c, c.addAll(filteredFirstLevelObjects));
-        });*/
+            for (FirstLevelDivisions areasToFilter: filteredAreas(selectedCountryId)) {
+                firstLevelListView.getItems().addAll(areasToFilter.getDivision());
+            }
 
-
+        });
 
         try (Connection conn = ConnectDB.makeConnection();
              PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM countries")){
