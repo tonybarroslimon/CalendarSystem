@@ -61,7 +61,33 @@ public class AddCustomerScreenController implements Initializable {
     }
 
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
+        /* TODO
+        2. validate the data
+        3. setup notifications if data is bad
+        4. if everything is good to go, create new object
+        5. load object into the DB
+        6. load the main page once this is done.
+         */
+        /*
+            private int customerId; //Primary Key
+            private String customerName;
+            private String address;
+            private String postalCode;
+            private String phone;
+            private Date createDate;
+            private String createdBy;
+            private Timestamp lastUpdate;
+            private String lastUpdatedBy;
+            private int divisionId;
+         */
+
+        String customerName = customerNameTextField.getText();
+        String address = addressTextField.getText();
+        String postalCode = postalCodeTextField.getText();
+        String phone = phoneNumberTextField.getText();
+        String divisionName = firstLevelListView.getSelectionModel().getSelectedItem().toString();
+
+
         loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
     }
 

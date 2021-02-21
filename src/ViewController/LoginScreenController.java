@@ -1,5 +1,6 @@
 package ViewController;
 
+import Model.Users;
 import Utilites.ConnectDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +42,15 @@ public class LoginScreenController implements Initializable {
     @FXML private String systemLanguage = localLanguage.getLanguage();
     @FXML private ResultSet loginResultSet;
     @FXML private Boolean loginResultBoolean = false;
+    private static Users activeUser;
+
+    /**
+     *
+     * @return the active user
+     */
+    public static Users getActiveUser() {
+        return activeUser;
+    }
 
     /**
      * The method that handles the exit button being pressed
@@ -112,6 +122,15 @@ public class LoginScreenController implements Initializable {
 
                 if (loginResultSet.next()) {
                     loginResultBoolean = true;
+                    activeUser = new Users(
+                            loginResultSet.getInt("User_ID"),
+                            loginResultSet.getString("User_Name"),
+                            loginResultSet.getString("Password"),
+                            loginResultSet.getDate("Create_Date"),
+                            loginResultSet.getString("Created_By"),
+                            loginResultSet.getTimestamp("Last_Update"),
+                            loginResultSet.getString("Last_Updated_By")
+                    );
                 }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
