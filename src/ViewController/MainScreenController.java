@@ -52,6 +52,8 @@ public class MainScreenController implements Initializable {
     @FXML private Button exitButton;
     @FXML private DatePicker datePicker;
 
+    private static Customers selectedCustomer;
+
     private ToggleGroup radioButtonSelected = new ToggleGroup();
 
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
@@ -119,6 +121,10 @@ public class MainScreenController implements Initializable {
     public void setToggleGroup() {
         monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
         weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
+    }
+
+    public static Customers getSelectedCustomer() {
+        return selectedCustomer;
     }
 
     @Override
