@@ -1,6 +1,7 @@
 package ViewController;
 
 import Model.Countries;
+import Model.Customers;
 import Model.FirstLevelDivisions;
 import Utilites.ConnectDB;
 import javafx.application.Application;
@@ -23,6 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import static ViewController.MainScreenController.getSelectedCustomer;
 
 public class ModifyCustomerScreenController implements Initializable {
 
@@ -52,6 +54,8 @@ public class ModifyCustomerScreenController implements Initializable {
     @FXML private String emptyCustomerField = new String();
     @FXML private String customerTextField = new String();
     private int divisionId;
+    @FXML private Customers selectedCustomer;
+    @FXML private int selectedCustomerId;
 
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
@@ -99,6 +103,24 @@ public class ModifyCustomerScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        selectedCustomer = getSelectedCustomer();
+        selectedCustomerId = selectedCustomer.getCustomerId();
+        customerIDTextField.setText("Auto Gen Customer ID: " + selectedCustomerId);
+        customerNameTextField.setText(selectedCustomer.getCustomerName());
+        phoneNumberTextField.setText(selectedCustomer.getPhone());
+        addressTextField.setText(selectedCustomer.getAddress());
+        postalCodeTextField.setText(selectedCustomer.getPostalCode());
+
+        /*
+            @FXML private ComboBox countryComboBox;
+            How do I set the default. I need to convert a division ID to find the corresponding country name and then
+            set the selected item in the country Combo Box
+            @FXML private ListView firstLevelListView;
+            I need to convert the Division ID to the Division name and then assign it as the selected item in the
+            first level list view
+         */
+
 
         // LAMBDA expression to handle the selection of the country from the country combo box
         countryComboBox.setOnAction((event) -> {
