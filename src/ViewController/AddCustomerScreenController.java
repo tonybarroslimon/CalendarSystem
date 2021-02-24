@@ -1,8 +1,11 @@
 package ViewController;
 
 import Model.Countries;
+import Model.Customers;
 import Model.FirstLevelDivisions;
+import Model.Users;
 import Utilites.ConnectDB;
+import static ViewController.LoginScreenController.getActiveUser;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,11 +21,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
+import static Utilites.HelperMethods.emptyCustomerTextFieldValidator;
+import static Utilites.HelperMethods.customerTextFieldValidator;
 
 public class AddCustomerScreenController implements Initializable {
 
@@ -49,6 +51,9 @@ public class AddCustomerScreenController implements Initializable {
     @FXML private ObservableList<FirstLevelDivisions> firstLevelObjects = FXCollections.observableArrayList();
     @FXML private String selectedCountry;
     @FXML private int selectedCountryId;
+    @FXML private String emptyCustomerField = new String();
+    @FXML private String customerTextField = new String();
+    private int divisionId;
 
 
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
@@ -61,34 +66,91 @@ public class AddCustomerScreenController implements Initializable {
     }
 
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
-        /* TODO
-        2. validate the data
-        3. setup notifications if data is bad
-        4. if everything is good to go, create new object
-        5. load object into the DB
-        6. load the main page once this is done.
-         */
-        /*
-            private int customerId; //Primary Key
-            private String customerName;
-            private String address;
-            private String postalCode;
-            private String phone;
-            private Date createDate;
-            private String createdBy;
-            private Timestamp lastUpdate;
-            private String lastUpdatedBy;
-            private int divisionId;
-         */
 
         String customerName = customerNameTextField.getText();
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
+        String countryName = countryComboBox.getSelectionModel().getSelectedItem().toString();
         String divisionName = firstLevelListView.getSelectionModel().getSelectedItem().toString();
 
+        // Grabs the system time to be inserted into the database
+        long millis = System.currentTimeMillis();
+        Date createDate = new Date(millis);
 
-        loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
+        // Grabs the active user for the created by and last update by
+        Users user = getActiveUser();
+        String createdBy = user.getUserName();
+
+        // Grabs the system timestamp to be inserted into the database
+        Timestamp lastUpdate = new Timestamp(System.currentTimeMillis());
+        String lastUpdatedBy = user.getUserName();
+
+        // For loop to find the division ID
+        for (FirstLevelDivisions selectedDivision: firstLevelObjects) {
+            if (selectedDivision.getDivision() == divisionName) {
+                divisionId = selectedDivision.getDivisionId();
+            }
+        }
+
+        emptyCustomerField = emptyCustomerTextFieldValidator(
+                customerName,
+                address,
+                postalCode,
+                phone,
+                divisionName,
+                emptyCustomerField
+        );
+
+        customerTextField = customerTextFieldValidator(
+                postalCode,
+                phone,
+                countryName,
+                customerTextField
+        );
+
+        try {
+            if (customerTextField.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Customer Addition Warning");
+                alert.setHeaderText("The customer was NOT added!");
+                alert.setContentText("Invalid data input in one or more fields!" + customerTextField + emptyCustomerField);
+                alert.showAndWait();
+                customerTextField = "";
+                emptyCustomerField = "";
+            } else {
+                Connection conn = ConnectDB.makeConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(
+                        "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) "
+                                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                preparedStatement.setString(1, customerName);
+                preparedStatement.setString(2, address);
+                preparedStatement.setString(3, postalCode);
+                preparedStatement.setString(4, phone);
+                preparedStatement.setDate(5, createDate);
+                preparedStatement.setString(6, createdBy);
+                preparedStatement.setTimestamp(7, lastUpdate);
+                preparedStatement.setString(8, lastUpdatedBy);
+                preparedStatement.setInt(9, divisionId);
+
+                int customercreation = preparedStatement.executeUpdate();
+
+                System.out.println("Customer created successfully!");
+
+                loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
+            }
+
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Customer Addition Warning");
+            alert.setHeaderText("The customer was NOT added!");
+            alert.setContentText("Invalid data input in one or more fields!" + customerTextField + emptyCustomerField);
+            alert.showAndWait();
+            customerTextField = "";
+            emptyCustomerField = "";
+        }
     }
 
     @FXML public void cancelButtonClicked(ActionEvent buttonClicked) throws IOException {
