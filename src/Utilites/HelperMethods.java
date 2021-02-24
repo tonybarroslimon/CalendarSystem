@@ -42,36 +42,15 @@ public class HelperMethods {
             String countryName,
             String textValidator) {
 
-        if (countryName == "U.S") {
-            String usPostalCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
-            Pattern usPostalCodePattern = Pattern.compile(usPostalCodeRegex);
-            Matcher usPostalCodeMatches = usPostalCodePattern.matcher(postalCode);
-            Boolean usPostalCodeMatch = usPostalCodeMatches.matches();
+        String postalCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$"
+                + "|^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$"
+                + "|^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$";
+        Pattern postalCodePattern = Pattern.compile(postalCodeRegex);
+        Matcher postalCodeMatcher = postalCodePattern.matcher(postalCode);
+        Boolean postalCodeMatch = postalCodeMatcher.matches();
 
-            if (!usPostalCodeMatch) {
-                textValidator += "\nPlease enter a valid postal code!";
-            }
-
-        } else if (countryName == "Canada") {
-            String canadaPostalCodeRegex = "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$";
-            Pattern canadaPostalCodePattern = Pattern.compile(canadaPostalCodeRegex);
-            Matcher canadaPostalCodeMatches = canadaPostalCodePattern.matcher(postalCode);
-            Boolean canadaPostalCodeMatch = canadaPostalCodeMatches.matches();
-
-            if (!canadaPostalCodeMatch) {
-                textValidator += "\nPlease enter a valid postal code!";
-            }
-
-        } else if (countryName == "UK") {
-            String ukPostalCodeRegex = "^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$";
-            Pattern ukPostalCodePattern = Pattern.compile(ukPostalCodeRegex);
-            Matcher ukPostalCodeMatches = ukPostalCodePattern.matcher(postalCode);
-            Boolean ukPostalCodeMatch = ukPostalCodeMatches.matches();
-
-            if (!ukPostalCodeMatch) {
-                textValidator += "\nPlease enter a valid postal code!";
-            }
-
+        if (!postalCodeMatch) {
+            textValidator += "\nPlease enter a valid postal code!";
         }
 
         String phoneNumberRegex = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
