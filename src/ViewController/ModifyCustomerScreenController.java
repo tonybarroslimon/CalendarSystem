@@ -1,6 +1,11 @@
 package ViewController;
 
+import Model.Countries;
+import Model.FirstLevelDivisions;
+import Utilites.ConnectDB;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +18,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ModifyCustomerScreenController implements Initializable {
@@ -34,6 +43,15 @@ public class ModifyCustomerScreenController implements Initializable {
     @FXML private ListView firstLevelListView;
     @FXML private Button saveButton;
     @FXML private Button cancelButton;
+    private ResultSet countriesResultSet;
+    private ResultSet firstLevelDivisionsResultsSet;
+    @FXML private ObservableList<Countries> countryObjects = FXCollections.observableArrayList();
+    @FXML private ObservableList<FirstLevelDivisions> firstLevelObjects = FXCollections.observableArrayList();
+    @FXML private String selectedCountry;
+    @FXML private int selectedCountryId;
+    @FXML private String emptyCustomerField = new String();
+    @FXML private String customerTextField = new String();
+    private int divisionId;
 
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
@@ -69,8 +87,81 @@ public class ModifyCustomerScreenController implements Initializable {
         }
     }
 
+    public ObservableList<FirstLevelDivisions> filteredAreas(int countryId) {
+        ObservableList<FirstLevelDivisions> filteredList = FXCollections.observableArrayList();
+        for (FirstLevelDivisions countryToFilter: firstLevelObjects) {
+            if (countryToFilter.getCountryId() == countryId) {
+                filteredList.add(countryToFilter);
+            }
+        }
+        return filteredList;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // LAMBDA expression to handle the selection of the country from the country combo box
+        countryComboBox.setOnAction((event) -> {
+            selectedCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
+            firstLevelListView.getItems().clear();
+
+            for (Countries selectedCountryToFilter: countryObjects) {
+                if (selectedCountryToFilter.getCountry() == selectedCountry) {
+                    selectedCountryId = selectedCountryToFilter.getCountryId();
+                }
+            }
+
+            for (FirstLevelDivisions areasToFilter: filteredAreas(selectedCountryId)) {
+                firstLevelListView.getItems().addAll(areasToFilter.getDivision());
+            }
+
+        });
+
+        try (Connection conn = ConnectDB.makeConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM countries")){
+            countriesResultSet = preparedStatement.executeQuery();
+
+            while (countriesResultSet.next()) {
+                countryObjects.addAll(new Countries(
+                        countriesResultSet.getInt("Country_ID"),
+                        countriesResultSet.getString("Country"),
+                        countriesResultSet.getDate("Create_Date"),
+                        countriesResultSet.getString("Created_By"),
+                        countriesResultSet.getTimestamp("Last_Update"),
+                        countriesResultSet.getString("Last_Updated_By")
+                ));
+            }
+
+            for (Countries country: countryObjects) {
+                countryComboBox.getItems().addAll(country.getCountry());
+            }
+
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try (Connection conn = ConnectDB.makeConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM first_level_divisions")){
+            firstLevelDivisionsResultsSet = preparedStatement.executeQuery();
+
+            while (firstLevelDivisionsResultsSet.next()) {
+                firstLevelObjects.addAll(new FirstLevelDivisions(
+                        firstLevelDivisionsResultsSet.getInt("Division_ID"),
+                        firstLevelDivisionsResultsSet.getString("Division"),
+                        firstLevelDivisionsResultsSet.getDate("Create_Date"),
+                        firstLevelDivisionsResultsSet.getString("Created_By"),
+                        firstLevelDivisionsResultsSet.getTimestamp("Last_Update"),
+                        firstLevelDivisionsResultsSet.getString("Last_Updated_By"),
+                        firstLevelDivisionsResultsSet.getInt("COUNTRY_ID")
+                ));
+            }
+
+            for (FirstLevelDivisions firstLevelDivisions: firstLevelObjects) {
+                firstLevelListView.getItems().addAll(firstLevelDivisions.getDivision());
+            }
+
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
