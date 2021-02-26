@@ -3,6 +3,7 @@ package ViewController;
 import Model.Countries;
 import Model.Customers;
 import Model.FirstLevelDivisions;
+import Model.Users;
 import Utilites.ConnectDB;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -19,11 +20,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
+
+import static Utilites.HelperMethods.customerTextFieldValidator;
+import static Utilites.HelperMethods.emptyCustomerTextFieldValidator;
+import static ViewController.LoginScreenController.getActiveUser;
 import static ViewController.MainScreenController.getSelectedCustomer;
 
 public class ModifyCustomerScreenController implements Initializable {
@@ -67,8 +69,86 @@ public class ModifyCustomerScreenController implements Initializable {
     }
 
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
-        loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
+
+        String customerName = customerNameTextField.getText();
+        String address = addressTextField.getText();
+        String postalCode = postalCodeTextField.getText();
+        String phone = phoneNumberTextField.getText();
+        String countryName = countryComboBox.getSelectionModel().getSelectedItem().toString();
+        String divisionName = firstLevelListView.getSelectionModel().getSelectedItem().toString();
+
+        // Grabs the active user for the last update by
+        Users user = getActiveUser();
+
+        // Grabs the system timestamp to be inserted into the database
+        Timestamp lastUpdate = new Timestamp(System.currentTimeMillis());
+        String lastUpdatedBy = user.getUserName();
+
+        // For loop to find the division ID
+        for (FirstLevelDivisions selectedDivision: firstLevelObjects) {
+            if (selectedDivision.getDivision() == divisionName) {
+                divisionId = selectedDivision.getDivisionId();
+            }
+        }
+
+        emptyCustomerField = emptyCustomerTextFieldValidator(
+                customerName,
+                address,
+                postalCode,
+                phone,
+                divisionName,
+                emptyCustomerField
+        );
+
+        customerTextField = customerTextFieldValidator(
+                postalCode,
+                phone,
+                countryName,
+                customerTextField
+        );
+
+        try {
+            if (customerTextField.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Customer Update Warning");
+                alert.setHeaderText("The customer was NOT updated!");
+                alert.setContentText("Invalid data input in one or more fields!" + customerTextField + emptyCustomerField);
+                alert.showAndWait();
+                customerTextField = "";
+                emptyCustomerField = "";
+            } else {
+                Connection conn = ConnectDB.makeConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(
+                        "UPDATE customers "
+                        + "SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, "
+                        + "Division_ID = ? WHERE Customer_ID = ?;");
+                preparedStatement.setString(1, customerName);
+                preparedStatement.setString(2, address);
+                preparedStatement.setString(3, postalCode);
+                preparedStatement.setString(4, phone);
+                preparedStatement.setTimestamp(5, lastUpdate);
+                preparedStatement.setString(6, lastUpdatedBy);
+                preparedStatement.setInt(7, divisionId);
+                preparedStatement.setInt(8, selectedCustomer.getCustomerId());
+
+                int customercreation = preparedStatement.executeUpdate();
+
+                System.out.println("Customer updated successfully!");
+
+                loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
+            }
+
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Customer Update Warning");
+            alert.setHeaderText("The customer was NOT updated!");
+            alert.setContentText("Invalid data input in one or more fields!" + customerTextField + emptyCustomerField);
+            alert.showAndWait();
+            customerTextField = "";
+            emptyCustomerField = "";
+        }
     }
 
     @FXML public void cancelButtonClicked(ActionEvent buttonClicked) throws Exception {
@@ -112,15 +192,17 @@ public class ModifyCustomerScreenController implements Initializable {
         addressTextField.setText(selectedCustomer.getAddress());
         postalCodeTextField.setText(selectedCustomer.getPostalCode());
 
-        /*
-            @FXML private ComboBox countryComboBox;
-            How do I set the default. I need to convert a division ID to find the corresponding country name and then
-            set the selected item in the country Combo Box
-            @FXML private ListView firstLevelListView;
-            I need to convert the Division ID to the Division name and then assign it as the selected item in the
-            first level list view
-         */
+        for (FirstLevelDivisions selectedFirstLevel: firstLevelObjects) {
+            if (selectedCustomer.getDivisionId() == selectedFirstLevel.getDivisionId()) {
+                firstLevelListView.getSelectionModel().select(selectedFirstLevel.getDivision());
 
+                for (Countries selectedCountry: countryObjects) {
+                    if (selectedFirstLevel.getCountryId() == selectedCountry.getCountryId()) {
+                        countryComboBox.getSelectionModel().select(selectedCountry.getCountry());
+                    }
+                }
+            }
+        }
 
         // LAMBDA expression to handle the selection of the country from the country combo box
         countryComboBox.setOnAction((event) -> {
