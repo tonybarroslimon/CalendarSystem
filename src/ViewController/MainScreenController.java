@@ -62,6 +62,7 @@ public class MainScreenController implements Initializable {
     @FXML private Users user = getActiveUser();
 
     private static Customers selectedCustomer;
+    private static Appointments selectedAppointment;
 
     private ToggleGroup radioButtonSelected = new ToggleGroup();
 
@@ -84,7 +85,42 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML public void deleteAppointmentButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Appointment");
+        alert.setHeaderText("Are you sure you want to delete this appointment?");
+        alert.setContentText("Press OK to delete the appointment. \nPress Cancel to cancel the deletion.");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            try {
+                Appointments selectedAppointmentToDelete = appointmentsTableView.getSelectionModel().getSelectedItem();
+
+                for (Appointments appointmentToDelete : appointmentsObject) {
+                    if (appointmentToDelete.getAppointmentId() == selectedAppointmentToDelete.getAppointmentId()) {
+                        appointmentsObject.remove(appointmentToDelete);
+
+                        Connection conn = ConnectDB.makeConnection();
+                        PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM appointments "
+                                        + "WHERE Appointment_ID = ?");
+                        preparedStatement.setInt(1, appointmentToDelete.getAppointmentId());
+
+                        int appointmentDeletion = preparedStatement.executeUpdate();
+
+                        System.out.println("Appointment was deleted successfully!");
+                    }
+                }
+            }
+            catch (NullPointerException e) {
+                Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                nullalert.setTitle("Appointment Deletion Error");
+                nullalert.setHeaderText("The appointment was NOT deleted!");
+                nullalert.setContentText("There was no appointment selected!");
+                nullalert.showAndWait();
+            }
+        }
+        else {
+            alert.close();
+        }
     }
 
     @FXML public void addCustomerButtonClicked(ActionEvent buttonClicked) throws Exception {
@@ -136,12 +172,15 @@ public class MainScreenController implements Initializable {
         return selectedCustomer;
     }
 
+    public static Appointments getSelectedAppointment() {
+        return selectedAppointment;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /*
         TODO:
         Modify appointment button being pressed
-        Delete appointment button being pressed
         Delete customer button being pressed
         Report one button being pressed
         Report two button being pressed
