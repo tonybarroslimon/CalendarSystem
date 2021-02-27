@@ -2,8 +2,11 @@ package ViewController;
 
 import Model.Appointments;
 import Model.Customers;
+import Model.Users;
 import Utilites.ConnectDB;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +19,10 @@ import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.Date;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
+import static ViewController.LoginScreenController.getActiveUser;
+
 
 public class MainScreenController implements Initializable {
 
@@ -51,6 +55,11 @@ public class MainScreenController implements Initializable {
     @FXML private Button reportThreeButton;
     @FXML private Button exitButton;
     @FXML private DatePicker datePicker;
+    @FXML private ResultSet customersResultSet;
+    @FXML private ObservableList<Customers> customersObject = FXCollections.observableArrayList();
+    @FXML private ResultSet appointmentsResultSet;
+    @FXML private ObservableList<Appointments> appointmentsObject = FXCollections.observableArrayList();
+    @FXML private Users user = getActiveUser();
 
     private static Customers selectedCustomer;
 
@@ -131,12 +140,8 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /*
         TODO:
-        Initialize table data for appointments
-        Initialize table data for customers
         Modify appointment button being pressed
         Delete appointment button being pressed
-        Add customer button being pressed
-        Modify customer button being pressed
         Delete customer button being pressed
         Report one button being pressed
         Report two button being pressed
@@ -146,21 +151,73 @@ public class MainScreenController implements Initializable {
         Error messages
         */
 
+        try (Connection conn = ConnectDB.makeConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM customers;")){
+            customersResultSet = preparedStatement.executeQuery();
+
+            while (customersResultSet.next()) {
+                customersObject.addAll(new Customers(
+                        customersResultSet.getInt("Customer_ID"),
+                        customersResultSet.getString("Customer_Name"),
+                        customersResultSet.getString("Address"),
+                        customersResultSet.getString("Postal_Code"),
+                        customersResultSet.getString("Phone"),
+                        customersResultSet.getDate("Create_Date"),
+                        customersResultSet.getString("Created_By"),
+                        customersResultSet.getTimestamp("Last_Update"),
+                        customersResultSet.getString("Last_Updated_By"),
+                        customersResultSet.getInt("Division_ID")
+                ));
+            }
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try (Connection conn = ConnectDB.makeConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM appointments;")){
+            appointmentsResultSet = preparedStatement.executeQuery();
+
+            while (appointmentsResultSet.next()) {
+                if (appointmentsResultSet.getInt("User_ID") == user.getUserId()) {
+                    appointmentsObject.addAll(new Appointments(
+                            appointmentsResultSet.getInt("Appointment_ID"),
+                            appointmentsResultSet.getString("Title"),
+                            appointmentsResultSet.getString("Description"),
+                            appointmentsResultSet.getString("Location"),
+                            appointmentsResultSet.getString("Type"),
+                            appointmentsResultSet.getDate("Start"),
+                            appointmentsResultSet.getDate("End"),
+                            appointmentsResultSet.getDate("Create_Date"),
+                            appointmentsResultSet.getString("Created_By"),
+                            appointmentsResultSet.getTimestamp("Last_Update"),
+                            appointmentsResultSet.getString("Last_Updated_By"),
+                            appointmentsResultSet.getInt("Customer_ID"),
+                            appointmentsResultSet.getInt("User_ID"),
+                            appointmentsResultSet.getInt("Contact_ID")
+                    ));
+                }
+            }
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         addressTableColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         firstLevelTableColumn.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
         postalCodeTableColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneTableColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customersTableView.setItems(customersObject);
 
         appointmentIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        contactTableColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        contactTableColumn.setCellValueFactory(new PropertyValueFactory<>("contactId"));
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         startTableColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
         endTableColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        appointmentsTableView.setItems(appointmentsObject);
 
     }
 }
