@@ -1,5 +1,7 @@
 package Utilites;
 
+import Model.Appointments;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,4 +69,5 @@ public class HelperMethods {
 
         return textValidator;
     }
+
 }
