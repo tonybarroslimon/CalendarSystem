@@ -31,7 +31,7 @@
                                     <Insets left="200.0" top="10.0" />
                                  </padding>
                               </Label>
-                              <RadioButton fx:id="weeklyViewRadioButton" mnemonicParsing="false" text="Weekly View" textAlignment="CENTER">
+                              <RadioButton fx:id="weeklyViewRadioButton" mnemonicParsing="false" onAction="#radioButtonChanged" text="Weekly View" textAlignment="CENTER">
                                  <padding>
                                     <Insets left="100.0" top="12.0" />
                                  </padding>
@@ -39,7 +39,7 @@
                                     <ToggleGroup fx:id="radioButtonSelected" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="monthlyViewRadioButton" mnemonicParsing="false" text="Monthly View" textAlignment="CENTER" toggleGroup="$radioButtonSelected">
+                              <RadioButton fx:id="monthlyViewRadioButton" mnemonicParsing="false" onAction="#radioButtonChanged" text="Monthly View" textAlignment="CENTER" toggleGroup="$radioButtonSelected">
                                  <padding>
                                     <Insets left="50.0" top="12.0" />
                                  </padding>
