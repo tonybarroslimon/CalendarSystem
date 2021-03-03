@@ -8,6 +8,8 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,10 +22,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.ResourceBundle;
 import static ViewController.LoginScreenController.getActiveUser;
 
-
+/**
+ * The Main Screen Controller
+ */
 public class MainScreenController implements Initializable {
 
     @FXML private RadioButton weeklyViewRadioButton;
@@ -55,6 +62,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button reportThreeButton;
     @FXML private Button exitButton;
     @FXML private DatePicker datePicker;
+    @FXML private LocalDate date;
     @FXML private ResultSet customersResultSet;
     @FXML private ObservableList<Customers> customersObject = FXCollections.observableArrayList();
     @FXML private ResultSet appointmentsResultSet;
@@ -66,6 +74,13 @@ public class MainScreenController implements Initializable {
 
     private ToggleGroup radioButtonSelected = new ToggleGroup();
 
+    /**
+     *
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -75,15 +90,109 @@ public class MainScreenController implements Initializable {
         newStage.show();
     }
 
+    /**
+     *
+     * @param event
+     * @throws Exception
+     */
+    @FXML public void radioButtonChanged(ActionEvent event) throws Exception{
+        ObservableList<Appointments> filteredAppointments = FXCollections.observableArrayList();
+
+        try{
+            if (this.radioButtonSelected.getSelectedToggle().equals(this.weeklyViewRadioButton)){
+                if (date == null) {
+                    LocalDate weeklyLocalTime = LocalDate.now();
+                    int weekNumber = weeklyLocalTime.get(WeekFields.SUNDAY_START.weekOfYear());
+
+                    for (Appointments weeklyAppointments : appointmentsObject) {
+                        LocalDate convertedStartDate = new java.sql.Date(weeklyAppointments.getStart().getTime()).toLocalDate();
+                        int appointmentWeekNumber = convertedStartDate.get(WeekFields.SUNDAY_START.weekOfYear());
+                        if (weekNumber == appointmentWeekNumber) {
+                            filteredAppointments.add(weeklyAppointments);
+                            appointmentsTableView.setItems(filteredAppointments);
+                            System.out.println(filteredAppointments);
+                        }
+                    }
+
+                } else {
+                    int weekNumber = date.get(WeekFields.SUNDAY_START.weekOfYear());
+
+                    for (Appointments weeklyAppointments : appointmentsObject) {
+                        LocalDate convertedStartDate = new java.sql.Date(weeklyAppointments.getStart().getTime()).toLocalDate();
+                        int appointmentWeekNumber = convertedStartDate.get(WeekFields.SUNDAY_START.weekOfYear());
+                        if (weekNumber == appointmentWeekNumber) {
+                            filteredAppointments.add(weeklyAppointments);
+                            appointmentsTableView.setItems(filteredAppointments);
+                            System.out.println(filteredAppointments);
+                        }
+                    }
+
+                }
+            }
+            if (this.radioButtonSelected.getSelectedToggle().equals(this.monthlyViewRadioButton)){
+                if (date == null) {
+                /*
+                1. Grab the localdate of the current system time
+                2. Grab the month and year in their own variable
+                3. For loop on the appointments object
+                4. Take the appointments object - convert start date to localdate
+                5. Compare month and year variable to the converted ones
+                6. If they match, add them to observablelist
+                7. Update the table with new observablelist
+                 */
+                } else {
+                /*
+                1. Grab the localdate of the date variable
+                2. Grab the month and year in their own variable
+                3. For loop on the appointments object
+                4. Take the appointments object - convert start date to localdate
+                5. Compare month and year variable to the converted ones
+                6. If they match, add them to observablelist
+                7. Update the table with new observablelist
+                */
+                }
+            }
+
+        } catch (NullPointerException e) {
+            appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
+        }
+
+    }
+
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void addAppointmentButtonClicked(ActionEvent buttonClicked) throws Exception {
         loadNewScreen("AddAppointmentScreen.fxml", buttonClicked, "Add Appointment");
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void modifyAppointmentButtonClicked(ActionEvent buttonClicked) throws Exception {
-        //TODO - finish this method
-        loadNewScreen("ModifyAppointmentScreen.fxml", buttonClicked, "Modify Appointment");
+        selectedAppointment = appointmentsTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedAppointment != null) {
+            loadNewScreen("ModifyAppointmentScreen.fxml", buttonClicked, "Modify Appointment");
+        }
+        else {
+            Alert blankAlert = new Alert(Alert.AlertType.ERROR);
+            blankAlert.setTitle("Appointment Modification Error");
+            blankAlert.setHeaderText("The appointment cannot be modified!");
+            blankAlert.setContentText("There was no appointment selected!");
+            blankAlert.showAndWait();
+        }
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void deleteAppointmentButtonClicked(ActionEvent buttonClicked) throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Appointment");
@@ -123,31 +232,122 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void addCustomerButtonClicked(ActionEvent buttonClicked) throws Exception {
         loadNewScreen("AddCustomerScreen.fxml", buttonClicked, "Add Customer");
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void modifyCustomerButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO - finish this method
-        loadNewScreen("ModifyCustomerScreen.fxml", buttonClicked, "Modify Customer");
+        selectedCustomer = customersTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer != null) {
+            loadNewScreen("ModifyCustomerScreen.fxml", buttonClicked, "Modify Customer");
+        }
+        else {
+            Alert blankAlert = new Alert(Alert.AlertType.ERROR);
+            blankAlert.setTitle("Customer Modification Error");
+            blankAlert.setHeaderText("The customer cannot be modified!");
+            blankAlert.setContentText("There was no customer selected!");
+            blankAlert.showAndWait();
+        }
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void deleteCustomerButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Customer");
+        alert.setHeaderText("Are you sure you want to delete this customer?");
+        alert.setContentText("Press OK to delete the customer. \nPress Cancel to cancel the deletion.");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            try {
+                Customers selectedCustomerToDelete = customersTableView.getSelectionModel().getSelectedItem();
+
+                for (Customers customerToDelete : customersObject) {
+                    for (Appointments appointmentsToConfirm: appointmentsObject) {
+
+                        if (selectedCustomerToDelete.getCustomerId() == appointmentsToConfirm.getCustomerId()) {
+                            Alert associatedPartAlert = new Alert(Alert.AlertType.ERROR);
+                            associatedPartAlert.setTitle("Customer Deletion Error");
+                            associatedPartAlert.setHeaderText("The customer was NOT deleted!");
+                            associatedPartAlert.setContentText("Selected customer has associated appointments!"
+                                    + "\nDelete associated appointments, then try again");
+                            associatedPartAlert.showAndWait();
+
+                        } else if (customerToDelete.getCustomerId() == selectedCustomerToDelete.getCustomerId()) {
+                            customersObject.remove(customerToDelete);
+
+                            Connection conn = ConnectDB.makeConnection();
+                            PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM customers "
+                                    + "WHERE Customer_ID = ?");
+                            preparedStatement.setInt(1, customerToDelete.getCustomerId());
+
+                            int customerDeletion = preparedStatement.executeUpdate();
+
+                            System.out.println("Customer was deleted successfully!");
+
+                            }
+                        }
+                    }
+                } catch (NullPointerException e) {
+                    Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                    nullalert.setTitle("Customer Deletion Error");
+                    nullalert.setHeaderText("The customer was NOT deleted!");
+                    nullalert.setContentText("There was no customer selected!");
+                    nullalert.showAndWait();
+            }
+        }
+        else {
+            alert.close();
+        }
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void reportOneButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
+        loadNewScreen("ReportOne.fxml", buttonClicked, "Report One Screen");
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void reportTwoButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
+        loadNewScreen("ReportTwo.fxml", buttonClicked, "Report Two Screen");
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void reportThreeButtonClicked(ActionEvent buttonClicked) throws Exception {
-        // TODO
+        loadNewScreen("ReportThree.fxml", buttonClicked, "Report Three Screen");
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws SQLException
+     */
     @FXML public void exitButtonClicked (ActionEvent buttonClicked) throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit Calendar System");
@@ -163,32 +363,49 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     public void setToggleGroup() {
         monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
         weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
     }
 
+    /**
+     *
+     * @return
+     */
     public static Customers getSelectedCustomer() {
         return selectedCustomer;
     }
 
+    /**
+     *
+     * @return
+     */
     public static Appointments getSelectedAppointment() {
         return selectedAppointment;
     }
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /*
         TODO:
-        Modify appointment button being pressed
-        Delete customer button being pressed
-        Report one button being pressed
-        Report two button being pressed
-        Report three button being pressed
         Filter data by what radio button is pressed
         JavaDocs
-        Error messages
         */
+
+        // Lambda to handle the selection of a date on the Main Controller
+        datePicker.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                date = datePicker.getValue();
+            }
+        });
 
         try (Connection conn = ConnectDB.makeConnection();
              PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM customers;")){
