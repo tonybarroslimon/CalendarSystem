@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.*;
 import java.util.ResourceBundle;
 import static Utilites.HelperMethods.emptyCustomerTextFieldValidator;
 import static Utilites.HelperMethods.customerTextFieldValidator;
@@ -185,6 +186,10 @@ public class AddCustomerScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /*
+        TODO
+        1. Convert time for create date and last updated date to UTC time for database upload
+         */
 
         // LAMBDA expression to handle the selection of the country from the country combo box
         countryComboBox.setOnAction((event) -> {

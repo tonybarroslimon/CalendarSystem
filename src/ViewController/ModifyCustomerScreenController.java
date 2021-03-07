@@ -184,6 +184,12 @@ public class ModifyCustomerScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        /*
+        TODO
+        1. Convert time for create date and last updated date to UTC time for database upload
+        2. Fix the selected combo box and list view
+         */
+
         selectedCustomer = getSelectedCustomer();
         selectedCustomerId = selectedCustomer.getCustomerId();
         customerIDTextField.setText("Auto Gen Customer ID: " + selectedCustomerId);

@@ -110,7 +110,6 @@ public class MainScreenController implements Initializable {
                         if (weekNumber == appointmentWeekNumber) {
                             filteredAppointments.add(weeklyAppointments);
                             appointmentsTableView.setItems(filteredAppointments);
-                            System.out.println(filteredAppointments);
                         }
                     }
 
@@ -123,7 +122,6 @@ public class MainScreenController implements Initializable {
                         if (weekNumber == appointmentWeekNumber) {
                             filteredAppointments.add(weeklyAppointments);
                             appointmentsTableView.setItems(filteredAppointments);
-                            System.out.println(filteredAppointments);
                         }
                     }
 
@@ -404,6 +402,7 @@ public class MainScreenController implements Initializable {
         datePicker.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 date = datePicker.getValue();
+
             }
         });
 
