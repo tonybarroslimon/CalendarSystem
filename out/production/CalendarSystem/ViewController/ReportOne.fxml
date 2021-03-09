@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ViewController.ReportOneController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ReportOneController">
+   <children>
+      <VBox layoutY="52.0" prefHeight="281.0" prefWidth="600.0">
+         <children>
+            <TableView fx:id="reportOneTableView" prefHeight="289.0" prefWidth="600.0">
+              <columns>
+                  <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Type" />
+                <TableColumn fx:id="monthColumn" prefWidth="75.0" text="Month" />
+                <TableColumn fx:id="numberOfAppointmentsColumn" prefWidth="157.0" text="Number of Appointments" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox prefHeight="51.0" prefWidth="600.0">
+         <children>
+            <Label fx:id="reportOneLabel" prefHeight="41.0" prefWidth="133.0" text="Report One">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutY="351.0" prefHeight="51.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" text="Back">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="450.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
