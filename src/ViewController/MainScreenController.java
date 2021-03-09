@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.temporal.WeekFields;
 import java.util.ResourceBundle;
 import static ViewController.LoginScreenController.getActiveUser;
@@ -105,6 +106,8 @@ public class MainScreenController implements Initializable {
                     int weekNumber = weeklyLocalTime.get(WeekFields.SUNDAY_START.weekOfYear());
 
                     for (Appointments weeklyAppointments : appointmentsObject) {
+                        appointmentsTableView.getItems().clear();
+                        appointmentsTableView.refresh();
                         LocalDate convertedStartDate = new java.sql.Date(weeklyAppointments.getStart().getTime()).toLocalDate();
                         int appointmentWeekNumber = convertedStartDate.get(WeekFields.SUNDAY_START.weekOfYear());
                         if (weekNumber == appointmentWeekNumber) {
@@ -112,11 +115,16 @@ public class MainScreenController implements Initializable {
                             appointmentsTableView.setItems(filteredAppointments);
                         }
                     }
-
+                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
+                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
+                        appointmentsTableView.refresh();
+                    }
                 } else {
                     int weekNumber = date.get(WeekFields.SUNDAY_START.weekOfYear());
 
                     for (Appointments weeklyAppointments : appointmentsObject) {
+                        appointmentsTableView.getItems().clear();
+                        appointmentsTableView.refresh();
                         LocalDate convertedStartDate = new java.sql.Date(weeklyAppointments.getStart().getTime()).toLocalDate();
                         int appointmentWeekNumber = convertedStartDate.get(WeekFields.SUNDAY_START.weekOfYear());
                         if (weekNumber == appointmentWeekNumber) {
@@ -124,37 +132,56 @@ public class MainScreenController implements Initializable {
                             appointmentsTableView.setItems(filteredAppointments);
                         }
                     }
-
+                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
+                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
+                        appointmentsTableView.refresh();
+                    }
                 }
             }
             if (this.radioButtonSelected.getSelectedToggle().equals(this.monthlyViewRadioButton)){
                 if (date == null) {
-                /*
-                1. Grab the localdate of the current system time
-                2. Grab the month and year in their own variable
-                3. For loop on the appointments object
-                4. Take the appointments object - convert start date to localdate
-                5. Compare month and year variable to the converted ones
-                6. If they match, add them to observablelist
-                7. Update the table with new observablelist
-                 */
+                    LocalDate monthlyLocalTime = LocalDate.now();
+                    YearMonth monthlyYearMonth = YearMonth.from(monthlyLocalTime);
+
+                    for (Appointments monthlyAppointments : appointmentsObject) {
+                        appointmentsTableView.getItems().clear();
+                        appointmentsTableView.refresh();
+                        LocalDate convertedStartDate = new java.sql.Date(monthlyAppointments.getStart().getTime()).toLocalDate();
+                        YearMonth convertedYearMonth = YearMonth.from(convertedStartDate);
+                        if (monthlyYearMonth.equals(convertedYearMonth)) {
+                            filteredAppointments.add(monthlyAppointments);
+                            appointmentsTableView.setItems(filteredAppointments);
+                        }
+
+                    }
+                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
+                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
+                        appointmentsTableView.refresh();
+                    }
                 } else {
-                /*
-                1. Grab the localdate of the date variable
-                2. Grab the month and year in their own variable
-                3. For loop on the appointments object
-                4. Take the appointments object - convert start date to localdate
-                5. Compare month and year variable to the converted ones
-                6. If they match, add them to observablelist
-                7. Update the table with new observablelist
-                */
+                    YearMonth monthlyYearMonth = YearMonth.from(date);
+
+                    for (Appointments monthlyAppointments : appointmentsObject) {
+                        appointmentsTableView.getItems().clear();
+                        appointmentsTableView.refresh();
+                        LocalDate convertedStartDate = new java.sql.Date(monthlyAppointments.getStart().getTime()).toLocalDate();
+                        YearMonth convertedYearMonth = YearMonth.from(convertedStartDate);
+                        if (monthlyYearMonth.equals(convertedYearMonth)) {
+                            filteredAppointments.add(monthlyAppointments);
+                            appointmentsTableView.setItems(filteredAppointments);
+                        }
+
+                    }
+                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
+                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
+                        appointmentsTableView.refresh();
+                    }
                 }
             }
 
         } catch (NullPointerException e) {
-            appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
+           appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
         }
-
     }
 
     /**
@@ -361,13 +388,6 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    /**
-     *
-     */
-    public void setToggleGroup() {
-        monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
-        weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
-    }
 
     /**
      *
@@ -398,11 +418,18 @@ public class MainScreenController implements Initializable {
         JavaDocs
         */
 
+        monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
+        weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
+
         // Lambda to handle the selection of a date on the Main Controller
         datePicker.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 date = datePicker.getValue();
-
+                try {
+                    radioButtonChanged((ActionEvent) t);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
