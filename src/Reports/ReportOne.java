@@ -4,7 +4,7 @@ public class ReportOne {
     private String type;
     private int numberOfAppointments;
 
-    public ReportOne(String type, int month, int numberOfAppointments) {
+    public ReportOne(String type, int numberOfAppointments) {
         this.type = type;
         this.numberOfAppointments = numberOfAppointments;
     }
