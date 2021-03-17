@@ -65,9 +65,9 @@ public class MainScreenController implements Initializable {
     @FXML private DatePicker datePicker;
     @FXML private LocalDate date;
     @FXML private ResultSet customersResultSet;
-    @FXML private ObservableList<Customers> customersObject = FXCollections.observableArrayList();
+    @FXML private static ObservableList<Customers> customersObject = FXCollections.observableArrayList();
     @FXML private ResultSet appointmentsResultSet;
-    @FXML private ObservableList<Appointments> appointmentsObject = FXCollections.observableArrayList();
+    @FXML private static ObservableList<Appointments> appointmentsObject = FXCollections.observableArrayList();
     @FXML private Users user = getActiveUser();
 
     private static Customers selectedCustomer;

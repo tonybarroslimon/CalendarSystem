@@ -2,10 +2,28 @@ package Utilites;
 
 import Model.Appointments;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Model.Customers;
+import ViewController.MainScreenController;
+import ViewController.MainScreenController.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+
 public class HelperMethods {
+    @FXML private static ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
+    @FXML private static ObservableList<Appointments> customerAppointments = FXCollections.observableArrayList();
+    @FXML private static ResultSet allAppointmentsResultSet;
+    @FXML private static boolean overlappingAppointments = false;
+
 
     public static String emptyCustomerTextFieldValidator(
             String name,
@@ -68,6 +86,218 @@ public class HelperMethods {
         }
 
         return textValidator;
+    }
+
+    public static String emptyAppointmentTextFieldValidator(
+            String title,
+            String description,
+            String location,
+            String contact,
+            String type,
+            String startDate,
+            String startTime,
+            String startMinutes,
+            String endDate,
+            String endTime,
+            String endMinutes,
+            String customerID,
+            String userID,
+            String emptyAppointment) {
+        if (title.equals("")) {
+            emptyAppointment += "\nThe Title field cannot be empty!";
+        }
+
+        if (description.equals("")) {
+            emptyAppointment += "\nThe Description field cannot be empty!";
+        }
+
+        if (location.equals("")) {
+            emptyAppointment += "\nThe Location field cannot be empty!";
+        }
+
+        if (contact.equals("")) {
+            emptyAppointment += "\nPlease select a Contact!";
+        }
+
+        if (type.equals("")) {
+            emptyAppointment += "\nThe Type field cannot be empty!";
+        }
+
+        if (startDate.equals("")) {
+            emptyAppointment += "\nPlease select a start date!";
+        }
+
+        if (startTime.equals("")) {
+            emptyAppointment += "\nPlease select a start hour!";
+        }
+
+        if (startMinutes.equals("")) {
+            emptyAppointment += "\nPlease select the minutes for the start of the appointment!";
+        }
+
+        if (endDate.equals("")) {
+            emptyAppointment += "\nPlease select an end date!";
+        }
+
+        if (endTime.equals("")) {
+            emptyAppointment += "\nPlease select an end hour!";
+        }
+
+        if (endMinutes.equals("")) {
+            emptyAppointment += "\nPlease select the minutes for the end of the appointment!";
+        }
+
+        if (customerID.equals("")) {
+            emptyAppointment += "\nThe Customer ID field cannot be empty!";
+        }
+
+        if (userID.equals("")) {
+            emptyAppointment += "\nThe User ID field cannot be empty!";
+        }
+
+        return emptyAppointment;
+    }
+
+    public static String appointmentTextFieldValidator(
+            String startDate,
+            String startTime,
+            String startMinutes,
+            String endDate,
+            String endTime,
+            String endMinutes,
+            String customerID,
+            String userID,
+            String appointmentValidator) {
+
+        overlappingAppointments = false;
+
+        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        LocalDate startLocalDate = LocalDate.parse(startDate, start);
+        LocalDateTime startLocalDateTime = LocalDateTime.of(
+                startLocalDate.getYear(),
+                startLocalDate.getMonthValue(),
+                startLocalDate.getDayOfMonth(),
+                Integer.parseInt(startTime),
+                Integer.parseInt(startMinutes));
+
+        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        LocalDate endLocalDate = LocalDate.parse(endDate, end);
+        LocalDateTime endLocalDateTime = LocalDateTime.of(
+                endLocalDate.getYear(),
+                endLocalDate.getMonthValue(),
+                endLocalDate.getDayOfMonth(),
+                Integer.parseInt(endTime),
+                Integer.parseInt(endMinutes));
+
+        boolean isAfter = endLocalDateTime.isAfter(startLocalDateTime);
+
+        if (!isAfter) {
+            appointmentValidator += "\nEnd Date must be after the Start Date!";
+        }
+
+        ZonedDateTime startZonedDateTime = ZonedDateTime.of(startLocalDateTime, ZoneId.systemDefault());
+        ZonedDateTime endZonedDateTime = ZonedDateTime.of(endLocalDateTime, ZoneId.systemDefault());
+        ZoneId est = ZoneId.of("America/New_York");
+        ZonedDateTime startEST = startZonedDateTime.withZoneSameInstant(est);
+        ZonedDateTime endEST = endZonedDateTime.withZoneSameInstant(est);
+
+        if (!(8 <= startEST.getHour() && endEST.getHour() < 22)) {
+            appointmentValidator += "\nThe selected times fall outside of our business hours. Please select times between 8AM and 10PM Eastern time!";
+        }
+
+        try {
+            Connection conn = ConnectDB.makeConnection();
+            PreparedStatement appointmentStatement = conn.prepareStatement("SELECT * FROM appointments");
+            allAppointmentsResultSet = appointmentStatement.executeQuery();
+
+            while (allAppointmentsResultSet.next()) {
+                allAppointments.addAll(new Appointments(
+                        allAppointmentsResultSet.getInt("Appointment_ID"),
+                        allAppointmentsResultSet.getString("Title"),
+                        allAppointmentsResultSet.getString("Description"),
+                        allAppointmentsResultSet.getString("Location"),
+                        allAppointmentsResultSet.getString("Type"),
+                        allAppointmentsResultSet.getDate("Start"),
+                        allAppointmentsResultSet.getDate("End"),
+                        allAppointmentsResultSet.getDate("Create_Date"),
+                        allAppointmentsResultSet.getString("Created_By"),
+                        allAppointmentsResultSet.getTimestamp("Last_Update"),
+                        allAppointmentsResultSet.getString("Last_Updated_By"),
+                        allAppointmentsResultSet.getInt("Customer_ID"),
+                        allAppointmentsResultSet.getInt("User_ID"),
+                        allAppointmentsResultSet.getInt("Contact_ID")
+                ));
+            }
+
+            int parsedCustomerID = Integer.parseInt(customerID);
+
+            for (Appointments all : allAppointments) {
+                if (all.getCustomerId() == parsedCustomerID) {
+                    customerAppointments.addAll(all);
+                }
+            }
+
+            ZoneId utc = ZoneId.of("UTC");
+            ZonedDateTime startUTC = startZonedDateTime.withZoneSameInstant(utc);
+            ZonedDateTime endUTC = endZonedDateTime.withZoneSameInstant(utc);
+
+            for (Appointments matching : customerAppointments) {
+                ZonedDateTime matchingStartZoned = ZonedDateTime.ofInstant(matching.getStart().toInstant(), utc);
+                ZonedDateTime matchingEndZoned = ZonedDateTime.ofInstant(matching.getEnd().toInstant(), utc);
+
+                if (startUTC.isBefore(matchingEndZoned) && matchingStartZoned.isBefore(endUTC)) {
+                    overlappingAppointments = true;
+                }
+            }
+
+            if (overlappingAppointments) {
+                appointmentValidator += "\nCustomers cannot have overlapping Appointments. Please select different times.";
+            }
+        } catch (NumberFormatException ex){
+            appointmentValidator += "\nPlease enter a valid Customer ID!";
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Connection conn = ConnectDB.makeConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Customer_ID FROM customers WHERE Customer_ID = ?");
+            int intCustomerID = Integer.parseInt(customerID);
+            preparedStatement.setInt(1, intCustomerID);
+            ResultSet customerIDResults = preparedStatement.executeQuery();
+
+            if (customerIDResults.next() == false) {
+                appointmentValidator += "\nPlease enter a valid Customer ID!";
+            }
+        } catch (NumberFormatException ex){
+            appointmentValidator += "\nPlease enter a valid Customer ID!";
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Connection conn = ConnectDB.makeConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT User_ID FROM users WHERE User_ID = ?");
+            int intUserID = Integer.parseInt(userID);
+            preparedStatement.setInt(1, intUserID);
+            ResultSet userIDResults = preparedStatement.executeQuery();
+
+            if (userIDResults.next() == false) {
+                appointmentValidator += "\nPlease enter a valid User ID!";
+            }
+        } catch (NumberFormatException ex){
+            appointmentValidator += "\nPlease enter a valid User ID!";
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentValidator;
     }
 
 }
