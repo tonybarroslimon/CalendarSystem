@@ -25,6 +25,16 @@ public class HelperMethods {
     @FXML private static boolean overlappingAppointments = false;
 
 
+    /**
+     *
+     * @param name
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param firstLevelSelection
+     * @param emptyValidator
+     * @return
+     */
     public static String emptyCustomerTextFieldValidator(
             String name,
             String address,
@@ -56,6 +66,14 @@ public class HelperMethods {
         return emptyValidator;
     }
 
+    /**
+     *
+     * @param postalCode
+     * @param phone
+     * @param countryName
+     * @param textValidator
+     * @return
+     */
     public static String customerTextFieldValidator(
             String postalCode,
             String phone,
@@ -88,6 +106,24 @@ public class HelperMethods {
         return textValidator;
     }
 
+    /**
+     *
+     * @param title
+     * @param description
+     * @param location
+     * @param contact
+     * @param type
+     * @param startDate
+     * @param startTime
+     * @param startMinutes
+     * @param endDate
+     * @param endTime
+     * @param endMinutes
+     * @param customerID
+     * @param userID
+     * @param emptyAppointment
+     * @return
+     */
     public static String emptyAppointmentTextFieldValidator(
             String title,
             String description,
@@ -158,6 +194,19 @@ public class HelperMethods {
         return emptyAppointment;
     }
 
+    /**
+     *
+     * @param startDate
+     * @param startTime
+     * @param startMinutes
+     * @param endDate
+     * @param endTime
+     * @param endMinutes
+     * @param customerID
+     * @param userID
+     * @param appointmentValidator
+     * @return
+     */
     public static String appointmentTextFieldValidator(
             String startDate,
             String startTime,
@@ -203,6 +252,42 @@ public class HelperMethods {
 
         if (!(8 <= startEST.getHour() && endEST.getHour() < 22)) {
             appointmentValidator += "\nThe selected times fall outside of our business hours. Please select times between 8AM and 10PM Eastern time!";
+        }
+
+        try {
+            Connection conn = ConnectDB.makeConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Customer_ID FROM customers WHERE Customer_ID = ?");
+            int intCustomerID = Integer.parseInt(customerID);
+            preparedStatement.setInt(1, intCustomerID);
+            ResultSet customerIDResults = preparedStatement.executeQuery();
+
+            if (customerIDResults.next() == false) {
+                appointmentValidator += "\nPlease enter a valid Customer ID!";
+            }
+        } catch (NumberFormatException ex){
+            appointmentValidator += "\nPlease enter a valid Customer ID!";
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Connection conn = ConnectDB.makeConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT User_ID FROM users WHERE User_ID = ?");
+            int intUserID = Integer.parseInt(userID);
+            preparedStatement.setInt(1, intUserID);
+            ResultSet userIDResults = preparedStatement.executeQuery();
+
+            if (userIDResults.next() == false) {
+                appointmentValidator += "\nPlease enter a valid User ID!";
+            }
+        } catch (NumberFormatException ex){
+            appointmentValidator += "\nPlease enter a valid User ID!";
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
         try {
@@ -255,42 +340,6 @@ public class HelperMethods {
             }
         } catch (NumberFormatException ex){
             appointmentValidator += "\nPlease enter a valid Customer ID!";
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Connection conn = ConnectDB.makeConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Customer_ID FROM customers WHERE Customer_ID = ?");
-            int intCustomerID = Integer.parseInt(customerID);
-            preparedStatement.setInt(1, intCustomerID);
-            ResultSet customerIDResults = preparedStatement.executeQuery();
-
-            if (customerIDResults.next() == false) {
-                appointmentValidator += "\nPlease enter a valid Customer ID!";
-            }
-        } catch (NumberFormatException ex){
-            appointmentValidator += "\nPlease enter a valid Customer ID!";
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Connection conn = ConnectDB.makeConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT User_ID FROM users WHERE User_ID = ?");
-            int intUserID = Integer.parseInt(userID);
-            preparedStatement.setInt(1, intUserID);
-            ResultSet userIDResults = preparedStatement.executeQuery();
-
-            if (userIDResults.next() == false) {
-                appointmentValidator += "\nPlease enter a valid User ID!";
-            }
-        } catch (NumberFormatException ex){
-            appointmentValidator += "\nPlease enter a valid User ID!";
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

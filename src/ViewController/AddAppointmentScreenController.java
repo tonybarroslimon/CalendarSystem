@@ -1,6 +1,7 @@
 package ViewController;
 
 import Model.Contacts;
+import Model.Users;
 import Utilites.ConnectDB;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -16,10 +17,17 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+
+import static Utilites.HelperMethods.appointmentTextFieldValidator;
+import static Utilites.HelperMethods.emptyAppointmentTextFieldValidator;
+import static ViewController.LoginScreenController.getActiveUser;
 
 public class AddAppointmentScreenController implements Initializable {
 
@@ -58,7 +66,15 @@ public class AddAppointmentScreenController implements Initializable {
             "13","14","15","16","17","18","19","20","21","22","23");
     @FXML private ObservableList<String> minutes = FXCollections.observableArrayList(
             "00","15","30","45");
+    private int contactID;
 
+    /**
+     *
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -68,26 +84,151 @@ public class AddAppointmentScreenController implements Initializable {
         newStage.show();
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
-        String titleField = titleTextField.getText();
-        String descriptionField = descriptionTextField.getText();
-        String locationField = locationTextField.getText();
-        String contactField = contactComboBox.getSelectionModel().getSelectedItem().toString();
-        String typeField = typeTextField.getText();
-        String startDateField = startDatePicker.getValue().toString();
-        String startTimeField = startTimeComboBox.getSelectionModel().getSelectedItem().toString();
-        String startMinutesField = startMinutesComboBox.getSelectionModel().getSelectedItem().toString();
-        String endDateField = endDatePicker.getValue().toString();
-        String endTimeField = endTimeComboBox.getSelectionModel().getSelectedItem().toString();
-        String endMinutesField = endMinutesComboBox.getSelectionModel().getSelectedItem().toString();
-        String customerIDField = customerIDTextField.getText();
-        String userIDField = userIDTextField.getText();
+        String title = titleTextField.getText();
+        String description = descriptionTextField.getText();
+        String location = locationTextField.getText();
+        String contact = contactComboBox.getSelectionModel().getSelectedItem().toString();
+        String type = typeTextField.getText();
+        String startDate = startDatePicker.getValue().toString();
+        String startTime = startTimeComboBox.getSelectionModel().getSelectedItem().toString();
+        String startMinutes = startMinutesComboBox.getSelectionModel().getSelectedItem().toString();
+        String endDate = endDatePicker.getValue().toString();
+        String endTime = endTimeComboBox.getSelectionModel().getSelectedItem().toString();
+        String endMinutes = endMinutesComboBox.getSelectionModel().getSelectedItem().toString();
+        String customerID = customerIDTextField.getText();
+        String userID = userIDTextField.getText();
 
+        // Grabs the system time to be inserted into the database
+        long millis = System.currentTimeMillis();
+        Date createDate = new Date(millis);
 
+        // Grabs the active user for the created by and last update by
+        Users user = getActiveUser();
+        String createdBy = user.getUserName();
 
-        loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
+        // Grabs the system timestamp to be inserted into the database
+        Timestamp lastUpdate = new Timestamp(System.currentTimeMillis());
+        String lastUpdatedBy = user.getUserName();
+
+        // For loop to find the contact ID
+        for (Contacts selectedContact : contactsForComboBox) {
+            if (selectedContact.getContactName() == contact) {
+                contactID = selectedContact.getContactId();
+            }
+        }
+
+        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        LocalDate startLocalDate = LocalDate.parse(startDate, start);
+        LocalDateTime startLocalDateTime = LocalDateTime.of(
+                startLocalDate.getYear(),
+                startLocalDate.getMonthValue(),
+                startLocalDate.getDayOfMonth(),
+                Integer.parseInt(startTime),
+                Integer.parseInt(startMinutes));
+
+        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        LocalDate endLocalDate = LocalDate.parse(endDate, end);
+        LocalDateTime endLocalDateTime = LocalDateTime.of(
+                endLocalDate.getYear(),
+                endLocalDate.getMonthValue(),
+                endLocalDate.getDayOfMonth(),
+                Integer.parseInt(endTime),
+                Integer.parseInt(endMinutes));
+
+        ZonedDateTime startZonedDateTime = ZonedDateTime.of(startLocalDateTime, ZoneId.systemDefault());
+        ZonedDateTime endZonedDateTime = ZonedDateTime.of(endLocalDateTime, ZoneId.systemDefault());
+        ZoneId utc = ZoneId.of("UTC");
+        ZonedDateTime startUTC = startZonedDateTime.withZoneSameInstant(utc);
+        ZonedDateTime endUTC = endZonedDateTime.withZoneSameInstant(utc);
+        Date startDateUTC = (Date) Date.from(startUTC.toInstant());
+        Date endDateUTC = (Date) Date.from(endUTC.toInstant());
+
+        emptyAppointmentField = emptyAppointmentTextFieldValidator(
+                title,
+                description,
+                location,
+                contact,
+                type,
+                startDate,
+                startTime,
+                startMinutes,
+                endDate,
+                endTime,
+                endMinutes,
+                customerID,
+                userID,
+                emptyAppointmentField);
+
+        appointmentTextField = appointmentTextFieldValidator(
+                startDate,
+                startTime,
+                startMinutes,
+                endDate,
+                endTime,
+                endMinutes,
+                customerID,
+                userID,
+                appointmentTextField);
+
+        try {
+            if (appointmentTextField.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Addition Warning");
+                alert.setHeaderText("The appointment was NOT added!");
+                alert.setContentText("Invalid data input in one or more fields!" + appointmentTextField + emptyAppointmentField);
+                alert.showAndWait();
+                appointmentTextField = "";
+                emptyAppointmentField = "";
+            } else {
+                Connection conn = ConnectDB.makeConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(
+                        "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, "
+                        + "Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                preparedStatement.setString(1, title);
+                preparedStatement.setString(2, description);
+                preparedStatement.setString(3, location);
+                preparedStatement.setString(4, type);
+                preparedStatement.setDate(5, startDateUTC);
+                preparedStatement.setDate(6, endDateUTC);
+                preparedStatement.setDate(7, createDate);
+                preparedStatement.setString(8, createdBy);
+                preparedStatement.setTimestamp(9, lastUpdate);
+                preparedStatement.setString(10, lastUpdatedBy);
+                preparedStatement.setInt(11, Integer.parseInt(customerID));
+                preparedStatement.setInt(12, Integer.parseInt(userID));
+                preparedStatement.setInt(13, contactID);
+
+                int appointmentCreation = preparedStatement.executeUpdate();
+
+                System.out.println("Appointment was created successfully!");
+
+                loadNewScreen("MainScreen.fxml", buttonClicked, "Main Screen");
+            }
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment Addition Warning");
+            alert.setHeaderText("The appointment was NOT added!");
+            alert.setContentText("Invalid data input in one or more fields!" + appointmentTextField + emptyAppointmentField);
+            alert.showAndWait();
+            appointmentTextField = "";
+            emptyAppointmentField = "";
+        }
     }
 
+    /**
+     *
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void cancelButtonClicked(ActionEvent buttonClicked) throws Exception {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -108,6 +249,11 @@ public class AddAppointmentScreenController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
