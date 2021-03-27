@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -126,7 +127,7 @@ public class LoginScreenController implements Initializable {
                             loginResultSet.getInt("User_ID"),
                             loginResultSet.getString("User_Name"),
                             loginResultSet.getString("Password"),
-                            loginResultSet.getDate("Create_Date"),
+                            loginResultSet.getObject("Create_Date", LocalDateTime.class),
                             loginResultSet.getString("Created_By"),
                             loginResultSet.getTimestamp("Last_Update"),
                             loginResultSet.getString("Last_Updated_By")
