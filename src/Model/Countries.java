@@ -3,6 +3,8 @@ package Model;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -10,7 +12,7 @@ import java.sql.Timestamp;
 public class Countries {
     private int countryId; // Primary Key
     private String country;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -24,7 +26,7 @@ public class Countries {
      * @param lastUpdate
      * @param lastUpdatedBy
      */
-    public Countries(int countryId, String country, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Countries(int countryId, String country, LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
         this.countryId = countryId;
         this.country = country;
         this.createDate = createDate;
@@ -69,7 +71,7 @@ public class Countries {
      *
      * @return
      */
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
@@ -77,7 +79,7 @@ public class Countries {
      *
      * @param createDate
      */
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 

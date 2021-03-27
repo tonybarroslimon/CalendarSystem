@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -10,7 +11,7 @@ public class Users {
     private int userId; // Primary Key
     private String userName;
     private String password;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -25,7 +26,7 @@ public class Users {
      * @param lastUpdate
      * @param lastUpdatedBy
      */
-    public Users(int userId, String userName, String password, Date createDate, String createdBy, Timestamp lastUpdate,
+    public Users(int userId, String userName, String password, LocalDateTime createDate, String createdBy, Timestamp lastUpdate,
                  String lastUpdatedBy) {
         this.userId = userId; //
         this.userName = userName; //
@@ -88,7 +89,7 @@ public class Users {
      *
      * @return
      */
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
@@ -96,7 +97,7 @@ public class Users {
      *
      * @param createDate
      */
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 

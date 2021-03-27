@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Customers class declaration
@@ -12,7 +13,7 @@ public class Customers {
     private String address;
     private String postalCode;
     private String phone;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -32,7 +33,7 @@ public class Customers {
      * @param divisionId division id (foreign key from FirstLevelDivisions class)
      */
     public Customers(int customerId, String customerName, String address, String postalCode, String phone,
-                     Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionId) {
+                     LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -129,7 +130,7 @@ public class Customers {
      * Getter method for created Date
      * @return create date
      */
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
@@ -137,7 +138,7 @@ public class Customers {
      * Setter method for created date
      * @param createDate to set
      */
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 

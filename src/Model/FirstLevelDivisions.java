@@ -2,6 +2,8 @@ package Model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -9,7 +11,7 @@ import java.sql.Timestamp;
 public class FirstLevelDivisions {
     private int divisionId; // Primary Key
     private String division;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -25,7 +27,7 @@ public class FirstLevelDivisions {
      * @param lastUpdatedBy
      * @param countryId
      */
-    public FirstLevelDivisions(int divisionId, String division, Date createDate, String createdBy, Timestamp lastUpdate,
+    public FirstLevelDivisions(int divisionId, String division, LocalDateTime createDate, String createdBy, Timestamp lastUpdate,
                                String lastUpdatedBy, int countryId) {
         this.divisionId = divisionId;
         this.division = division;
@@ -72,7 +74,7 @@ public class FirstLevelDivisions {
      *
      * @return
      */
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
@@ -80,7 +82,7 @@ public class FirstLevelDivisions {
      *
      * @param createDate
      */
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 

@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Appointments class declaration
@@ -12,9 +13,9 @@ public class Appointments {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
-    private Date createDate;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
@@ -40,7 +41,7 @@ public class Appointments {
      * @param contactId appointment contact ID (foreign key from Contacts class)
      */
     public Appointments(int appointmentId, String title, String description, String location, String type,
-                        Date start, Date end, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy,
+                        LocalDateTime start, LocalDateTime end, LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy,
                         int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
         this.title = title;
@@ -142,7 +143,7 @@ public class Appointments {
      *
      * @return
      */
-    public Date getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
@@ -150,7 +151,7 @@ public class Appointments {
      *
      * @param start
      */
-    public void setStart(Date start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
@@ -158,7 +159,7 @@ public class Appointments {
      *
      * @return
      */
-    public Date getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
@@ -166,7 +167,7 @@ public class Appointments {
      *
      * @param end
      */
-    public void setEnd(Date end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
@@ -174,7 +175,7 @@ public class Appointments {
      *
      * @return
      */
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
@@ -182,7 +183,7 @@ public class Appointments {
      *
      * @param createDate
      */
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
