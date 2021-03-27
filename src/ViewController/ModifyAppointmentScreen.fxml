@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ModifyAppointmentScreenController">
+<AnchorPane prefHeight="600.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ModifyAppointmentScreenController">
     <children>
         <HBox layoutY="511.0" prefHeight="89.0" prefWidth="401.0">
             <children>
@@ -128,7 +128,7 @@
                 <Insets left="15.0" top="15.0" />
             </padding>
         </VBox>
-        <VBox layoutX="146.0" layoutY="51.0" prefHeight="460.0" prefWidth="237.0">
+        <VBox layoutX="146.0" layoutY="51.0" prefHeight="460.0" prefWidth="315.0">
             <children>
                 <TextField fx:id="appointmentIDTextField" disable="true" prefHeight="0.0" prefWidth="256.0" style="-fx-border-color: black;" text="Auto Gen Appointment ID: ">
                     <VBox.margin>
@@ -167,7 +167,11 @@
                                 <Insets right="13.0" />
                             </HBox.margin>
                         </DatePicker>
-                        <ComboBox fx:id="startTimeComboBox" prefHeight="27.0" prefWidth="112.0" promptText="Start" style="-fx-border-color: black;" />
+                        <ComboBox fx:id="startTimeComboBox" prefHeight="27.0" prefWidth="80.0" promptText="Start" style="-fx-border-color: black;">
+                     <HBox.margin>
+                        <Insets right="13.0" />
+                     </HBox.margin></ComboBox>
+                  <ComboBox fx:id="startMinutesComboBox" prefWidth="96.0" promptText="Minutes" style="-fx-border-color: black;" />
                     </children>
                 </HBox>
                 <HBox prefHeight="38.5" prefWidth="200.0">
@@ -177,7 +181,11 @@
                                 <Insets right="13.0" />
                             </HBox.margin>
                         </DatePicker>
-                        <ComboBox fx:id="endTimeComboBox" prefHeight="27.0" prefWidth="112.0" promptText="End" style="-fx-border-color: black;" />
+                        <ComboBox fx:id="endTimeComboBox" prefHeight="27.0" prefWidth="80.0" promptText="End" style="-fx-border-color: black;">
+                     <HBox.margin>
+                        <Insets right="13.0" />
+                     </HBox.margin></ComboBox>
+                  <ComboBox fx:id="endMinutesComboBox" prefWidth="96.0" promptText="Minutes" style="-fx-border-color: black;" />
                     </children>
                 </HBox>
                 <TextField fx:id="customerIDTextField" promptText="Enter Customer ID" style="-fx-border-color: black;">
