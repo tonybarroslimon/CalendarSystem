@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.temporal.WeekFields;
 import java.util.ResourceBundle;
@@ -108,15 +109,14 @@ public class MainScreenController implements Initializable {
                     for (Appointments weeklyAppointments : appointmentsObject) {
                         appointmentsTableView.getItems().clear();
                         appointmentsTableView.refresh();
-                        LocalDate convertedStartDate = new java.sql.Date(weeklyAppointments.getStart().getTime()).toLocalDate();
-                        int appointmentWeekNumber = convertedStartDate.get(WeekFields.SUNDAY_START.weekOfYear());
+                        LocalDate startDateNoTime = weeklyAppointments.getStart().toLocalDate();
+                        int appointmentWeekNumber = startDateNoTime.get(WeekFields.SUNDAY_START.weekOfYear());
                         if (weekNumber == appointmentWeekNumber) {
                             filteredAppointments.add(weeklyAppointments);
                             appointmentsTableView.setItems(filteredAppointments);
                         }
                     }
                     if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
                         appointmentsTableView.refresh();
                     }
                 } else {
@@ -125,15 +125,14 @@ public class MainScreenController implements Initializable {
                     for (Appointments weeklyAppointments : appointmentsObject) {
                         appointmentsTableView.getItems().clear();
                         appointmentsTableView.refresh();
-                        LocalDate convertedStartDate = new java.sql.Date(weeklyAppointments.getStart().getTime()).toLocalDate();
-                        int appointmentWeekNumber = convertedStartDate.get(WeekFields.SUNDAY_START.weekOfYear());
+                        LocalDate startDateNoTime = weeklyAppointments.getStart().toLocalDate();
+                        int appointmentWeekNumber = startDateNoTime.get(WeekFields.SUNDAY_START.weekOfYear());
                         if (weekNumber == appointmentWeekNumber) {
                             filteredAppointments.add(weeklyAppointments);
                             appointmentsTableView.setItems(filteredAppointments);
                         }
                     }
                     if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
                         appointmentsTableView.refresh();
                     }
                 }
@@ -146,8 +145,8 @@ public class MainScreenController implements Initializable {
                     for (Appointments monthlyAppointments : appointmentsObject) {
                         appointmentsTableView.getItems().clear();
                         appointmentsTableView.refresh();
-                        LocalDate convertedStartDate = new java.sql.Date(monthlyAppointments.getStart().getTime()).toLocalDate();
-                        YearMonth convertedYearMonth = YearMonth.from(convertedStartDate);
+                        LocalDate startDateNoTime = monthlyAppointments.getStart().toLocalDate();
+                        YearMonth convertedYearMonth = YearMonth.from(startDateNoTime);
                         if (monthlyYearMonth.equals(convertedYearMonth)) {
                             filteredAppointments.add(monthlyAppointments);
                             appointmentsTableView.setItems(filteredAppointments);
@@ -155,7 +154,6 @@ public class MainScreenController implements Initializable {
 
                     }
                     if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
                         appointmentsTableView.refresh();
                     }
                 } else {
@@ -164,8 +162,8 @@ public class MainScreenController implements Initializable {
                     for (Appointments monthlyAppointments : appointmentsObject) {
                         appointmentsTableView.getItems().clear();
                         appointmentsTableView.refresh();
-                        LocalDate convertedStartDate = new java.sql.Date(monthlyAppointments.getStart().getTime()).toLocalDate();
-                        YearMonth convertedYearMonth = YearMonth.from(convertedStartDate);
+                        LocalDate startDateNoTime = monthlyAppointments.getStart().toLocalDate();
+                        YearMonth convertedYearMonth = YearMonth.from(startDateNoTime);
                         if (monthlyYearMonth.equals(convertedYearMonth)) {
                             filteredAppointments.add(monthlyAppointments);
                             appointmentsTableView.setItems(filteredAppointments);
@@ -173,7 +171,6 @@ public class MainScreenController implements Initializable {
 
                     }
                     if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
                         appointmentsTableView.refresh();
                     }
                 }
@@ -388,7 +385,6 @@ public class MainScreenController implements Initializable {
         }
     }
 
-
     /**
      *
      * @return
@@ -433,9 +429,9 @@ public class MainScreenController implements Initializable {
             }
         });
 
-        try (Connection conn = ConnectDB.makeConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM customers;")){
-            customersResultSet = preparedStatement.executeQuery();
+        try {Connection conn = ConnectDB.makeConnection();
+             PreparedStatement customerPreparedStatement = conn.prepareStatement("SELECT * FROM customers;");
+            customersResultSet = customerPreparedStatement.executeQuery();
 
             while (customersResultSet.next()) {
                 customersObject.addAll(new Customers(
@@ -444,41 +440,37 @@ public class MainScreenController implements Initializable {
                         customersResultSet.getString("Address"),
                         customersResultSet.getString("Postal_Code"),
                         customersResultSet.getString("Phone"),
-                        customersResultSet.getDate("Create_Date"),
+                        customersResultSet.getObject("Create_Date", LocalDateTime.class),
                         customersResultSet.getString("Created_By"),
                         customersResultSet.getTimestamp("Last_Update"),
                         customersResultSet.getString("Last_Updated_By"),
                         customersResultSet.getInt("Division_ID")
                 ));
             }
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
 
-        try (Connection conn = ConnectDB.makeConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM appointments;")){
-            appointmentsResultSet = preparedStatement.executeQuery();
+            PreparedStatement appointmentPreparedStatement = conn.prepareStatement("SELECT * FROM appointments WHERE User_ID = ?;");
+            appointmentPreparedStatement.setInt(1, user.getUserId());
+            appointmentsResultSet = appointmentPreparedStatement.executeQuery();
 
             while (appointmentsResultSet.next()) {
-                if (appointmentsResultSet.getInt("User_ID") == user.getUserId()) {
-                    appointmentsObject.addAll(new Appointments(
-                            appointmentsResultSet.getInt("Appointment_ID"),
-                            appointmentsResultSet.getString("Title"),
-                            appointmentsResultSet.getString("Description"),
-                            appointmentsResultSet.getString("Location"),
-                            appointmentsResultSet.getString("Type"),
-                            appointmentsResultSet.getDate("Start"),
-                            appointmentsResultSet.getDate("End"),
-                            appointmentsResultSet.getDate("Create_Date"),
-                            appointmentsResultSet.getString("Created_By"),
-                            appointmentsResultSet.getTimestamp("Last_Update"),
-                            appointmentsResultSet.getString("Last_Updated_By"),
-                            appointmentsResultSet.getInt("Customer_ID"),
-                            appointmentsResultSet.getInt("User_ID"),
-                            appointmentsResultSet.getInt("Contact_ID")
-                    ));
-                }
+                appointmentsObject.addAll(new Appointments(
+                        appointmentsResultSet.getInt("Appointment_ID"),
+                        appointmentsResultSet.getString("Title"),
+                        appointmentsResultSet.getString("Description"),
+                        appointmentsResultSet.getString("Location"),
+                        appointmentsResultSet.getString("Type"),
+                        appointmentsResultSet.getObject("Start", LocalDateTime.class),
+                        appointmentsResultSet.getObject("End", LocalDateTime.class),
+                        appointmentsResultSet.getObject("Create_Date", LocalDateTime.class),
+                        appointmentsResultSet.getString("Created_By"),
+                        appointmentsResultSet.getTimestamp("Last_Update"),
+                        appointmentsResultSet.getString("Last_Updated_By"),
+                        appointmentsResultSet.getInt("Customer_ID"),
+                        appointmentsResultSet.getInt("User_ID"),
+                        appointmentsResultSet.getInt("Contact_ID")
+                ));
             }
+
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -489,6 +481,7 @@ public class MainScreenController implements Initializable {
         postalCodeTableColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneTableColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         customersTableView.setItems(customersObject);
+        customersTableView.setPlaceholder(new Label("No customers to display!"));
 
         appointmentIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -500,6 +493,7 @@ public class MainScreenController implements Initializable {
         endTableColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         appointmentsTableView.setItems(appointmentsObject);
+        appointmentsTableView.setPlaceholder(new Label("No appointments to display!"));
 
     }
 }
