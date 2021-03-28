@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import static Utilites.HelperMethods.customerTextFieldValidator;
@@ -235,7 +236,7 @@ public class ModifyCustomerScreenController implements Initializable {
                 countryObjects.addAll(new Countries(
                         countriesResultSet.getInt("Country_ID"),
                         countriesResultSet.getString("Country"),
-                        countriesResultSet.getDate("Create_Date"),
+                        countriesResultSet.getObject("Create_Date", LocalDateTime.class),
                         countriesResultSet.getString("Created_By"),
                         countriesResultSet.getTimestamp("Last_Update"),
                         countriesResultSet.getString("Last_Updated_By")
@@ -258,7 +259,7 @@ public class ModifyCustomerScreenController implements Initializable {
                 firstLevelObjects.addAll(new FirstLevelDivisions(
                         firstLevelDivisionsResultsSet.getInt("Division_ID"),
                         firstLevelDivisionsResultsSet.getString("Division"),
-                        firstLevelDivisionsResultsSet.getDate("Create_Date"),
+                        firstLevelDivisionsResultsSet.getObject("Create_Date", LocalDateTime.class),
                         firstLevelDivisionsResultsSet.getString("Created_By"),
                         firstLevelDivisionsResultsSet.getTimestamp("Last_Update"),
                         firstLevelDivisionsResultsSet.getString("Last_Updated_By"),

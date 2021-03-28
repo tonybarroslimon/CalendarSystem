@@ -76,8 +76,9 @@ public class AddCustomerScreenController implements Initializable {
         String divisionName = firstLevelListView.getSelectionModel().getSelectedItem().toString();
 
         // Grabs the system time to be inserted into the database
-        long millis = System.currentTimeMillis();
-        Date createDate = new Date(millis);
+        LocalDateTime createDate = LocalDateTime.now();
+        ZoneId utcZone = ZoneId.of("UTC");
+        ZonedDateTime createDateUTC = ZonedDateTime.of(createDate, utcZone);
 
         // Grabs the active user for the created by and last update by
         Users user = getActiveUser();
@@ -128,7 +129,7 @@ public class AddCustomerScreenController implements Initializable {
                 preparedStatement.setString(2, address);
                 preparedStatement.setString(3, postalCode);
                 preparedStatement.setString(4, phone);
-                preparedStatement.setDate(5, createDate);
+                preparedStatement.setObject(5, createDateUTC);
                 preparedStatement.setString(6, createdBy);
                 preparedStatement.setTimestamp(7, lastUpdate);
                 preparedStatement.setString(8, lastUpdatedBy);
@@ -186,10 +187,6 @@ public class AddCustomerScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*
-        TODO
-        1. Convert time for create date and last updated date to UTC time for database upload
-         */
 
         // LAMBDA expression to handle the selection of the country from the country combo box
         countryComboBox.setOnAction((event) -> {
@@ -216,7 +213,7 @@ public class AddCustomerScreenController implements Initializable {
                     countryObjects.addAll(new Countries(
                             countriesResultSet.getInt("Country_ID"),
                             countriesResultSet.getString("Country"),
-                            countriesResultSet.getDate("Create_Date"),
+                            countriesResultSet.getObject("Create_Date", LocalDateTime.class),
                             countriesResultSet.getString("Created_By"),
                             countriesResultSet.getTimestamp("Last_Update"),
                             countriesResultSet.getString("Last_Updated_By")
@@ -239,7 +236,7 @@ public class AddCustomerScreenController implements Initializable {
                     firstLevelObjects.addAll(new FirstLevelDivisions(
                             firstLevelDivisionsResultsSet.getInt("Division_ID"),
                             firstLevelDivisionsResultsSet.getString("Division"),
-                            firstLevelDivisionsResultsSet.getDate("Create_Date"),
+                            firstLevelDivisionsResultsSet.getObject("Create_Date",LocalDateTime.class),
                             firstLevelDivisionsResultsSet.getString("Created_By"),
                             firstLevelDivisionsResultsSet.getTimestamp("Last_Update"),
                             firstLevelDivisionsResultsSet.getString("Last_Updated_By"),

@@ -302,9 +302,9 @@ public class HelperMethods {
                         allAppointmentsResultSet.getString("Description"),
                         allAppointmentsResultSet.getString("Location"),
                         allAppointmentsResultSet.getString("Type"),
-                        allAppointmentsResultSet.getDate("Start"),
-                        allAppointmentsResultSet.getDate("End"),
-                        allAppointmentsResultSet.getDate("Create_Date"),
+                        allAppointmentsResultSet.getObject("Start", LocalDateTime.class),
+                        allAppointmentsResultSet.getObject("End", LocalDateTime.class),
+                        allAppointmentsResultSet.getObject("Create_Date", LocalDateTime.class),
                         allAppointmentsResultSet.getString("Created_By"),
                         allAppointmentsResultSet.getTimestamp("Last_Update"),
                         allAppointmentsResultSet.getString("Last_Updated_By"),
@@ -327,8 +327,8 @@ public class HelperMethods {
             ZonedDateTime endUTC = endZonedDateTime.withZoneSameInstant(utc);
 
             for (Appointments matching : customerAppointments) {
-                ZonedDateTime matchingStartZoned = ZonedDateTime.ofInstant(matching.getStart().toInstant(), utc);
-                ZonedDateTime matchingEndZoned = ZonedDateTime.ofInstant(matching.getEnd().toInstant(), utc);
+                ZonedDateTime matchingStartZoned = ZonedDateTime.of(matching.getStart(), utc);
+                ZonedDateTime matchingEndZoned = ZonedDateTime.of(matching.getEnd(), utc);
 
                 if (startUTC.isBefore(matchingEndZoned) && matchingStartZoned.isBefore(endUTC)) {
                     overlappingAppointments = true;

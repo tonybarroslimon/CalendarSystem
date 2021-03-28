@@ -105,8 +105,9 @@ public class AddAppointmentScreenController implements Initializable {
         String userID = userIDTextField.getText();
 
         // Grabs the system time to be inserted into the database
-        long millis = System.currentTimeMillis();
-        Date createDate = new Date(millis);
+        LocalDateTime createDate = LocalDateTime.now();
+        ZoneId zoneUTC = ZoneId.of("UTC");
+        ZonedDateTime createDateUTC = ZonedDateTime.of(createDate, zoneUTC);
 
         // Grabs the active user for the created by and last update by
         Users user = getActiveUser();
@@ -146,8 +147,6 @@ public class AddAppointmentScreenController implements Initializable {
         ZoneId utc = ZoneId.of("UTC");
         ZonedDateTime startUTC = startZonedDateTime.withZoneSameInstant(utc);
         ZonedDateTime endUTC = endZonedDateTime.withZoneSameInstant(utc);
-        Date startDateUTC = (Date) Date.from(startUTC.toInstant());
-        Date endDateUTC = (Date) Date.from(endUTC.toInstant());
 
         emptyAppointmentField = emptyAppointmentTextFieldValidator(
                 title,
@@ -195,9 +194,9 @@ public class AddAppointmentScreenController implements Initializable {
                 preparedStatement.setString(2, description);
                 preparedStatement.setString(3, location);
                 preparedStatement.setString(4, type);
-                preparedStatement.setDate(5, startDateUTC);
-                preparedStatement.setDate(6, endDateUTC);
-                preparedStatement.setDate(7, createDate);
+                preparedStatement.setObject(5, startUTC);
+                preparedStatement.setObject(6, endUTC);
+                preparedStatement.setObject(7, createDateUTC);
                 preparedStatement.setString(8, createdBy);
                 preparedStatement.setTimestamp(9, lastUpdate);
                 preparedStatement.setString(10, lastUpdatedBy);
