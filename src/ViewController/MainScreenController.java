@@ -410,12 +410,14 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /*
         TODO:
-        Filter data by what radio button is pressed
         JavaDocs
         */
 
         monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
         weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
+
+        customersObject.removeAll(customersObject);
+        appointmentsObject.removeAll(appointmentsObject);
 
         // Lambda to handle the selection of a date on the Main Controller
         datePicker.setOnAction(new EventHandler() {
