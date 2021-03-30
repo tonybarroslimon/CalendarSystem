@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ViewController.ReportThreeController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="319.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ReportThreeController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="319.0">
+         <children>
+            <HBox prefHeight="56.0" prefWidth="319.0">
+               <children>
+                  <Label fx:id="reportThreeLabel" text="Report Three">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="270.0" prefWidth="319.0">
+               <children>
+                  <TableView fx:id="reportThreeTableView" prefHeight="262.0" prefWidth="240.0">
+                    <columns>
+                      <TableColumn fx:id="customerIdColumn" minWidth="120.0" prefWidth="75.0" text="Customer ID" />
+                      <TableColumn fx:id="customerIdNumAppointmentsColumn" minWidth="120.0" prefWidth="75.0" text="# Appointments" />
+                    </columns>
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </TableView>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonPressed" style="-fx-border-color: black;" text="Back">
+                     <HBox.margin>
+                        <Insets left="225.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>

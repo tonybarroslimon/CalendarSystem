@@ -2,79 +2,61 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="250.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ReportOneController">
+<AnchorPane prefHeight="409.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ReportOneController">
    <children>
-      <VBox layoutY="52.0" prefHeight="187.0" prefWidth="600.0">
+      <VBox prefHeight="409.0" prefWidth="465.0">
          <children>
-            <VBox prefHeight="230.0" prefWidth="600.0">
+            <HBox prefHeight="47.0" prefWidth="388.0">
                <children>
-                  <HBox prefHeight="64.0" prefWidth="600.0">
-                     <children>
-                        <ComboBox prefHeight="44.0" prefWidth="178.0" promptText="Select a Type">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </ComboBox>
-                        <Label prefHeight="42.0" prefWidth="198.0" text="Number of appointments">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="59.0" prefWidth="600.0">
-                     <children>
-                        <ComboBox prefHeight="44.0" prefWidth="178.0" promptText="Select a Month">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </ComboBox>
-                        <Label prefHeight="42.0" prefWidth="198.0" text="Number of appointments">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
+                  <Label fx:id="reportOneLabel" text="Report One">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
-            </VBox>
-         </children>
-      </VBox>
-      <VBox prefHeight="51.0" prefWidth="600.0">
-         <children>
-            <Label fx:id="reportOneLabel" prefHeight="41.0" prefWidth="133.0" text="Report One">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="10.0" />
-               </VBox.margin>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutY="351.0" prefHeight="51.0" prefWidth="600.0">
-         <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" text="Back">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="450.0" />
-               </VBox.margin>
-            </Button>
+            </HBox>
+            <HBox prefHeight="300.0" prefWidth="454.0">
+               <children>
+                  <TableView fx:id="typeTableView" prefHeight="287.0" prefWidth="211.0">
+                    <columns>
+                      <TableColumn fx:id="typeColumn" prefWidth="105.0" text="Type" />
+                      <TableColumn fx:id="typeNumAppointmentsColumn" prefWidth="105.0" text="# Appointments" />
+                    </columns>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </TableView>
+                  <TableView fx:id="monthTableView" prefHeight="287.0" prefWidth="211.0">
+                     <columns>
+                        <TableColumn fx:id="monthColumn" prefWidth="105.0" text="Month" />
+                        <TableColumn fx:id="monthNumAppointmentsColumn" prefWidth="105.0" text="# Appointments" />
+                     </columns>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TableView>
+               </children>
+            </HBox>
+            <HBox prefHeight="51.0" prefWidth="388.0">
+               <children>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="27.0" prefWidth="61.0" style="-fx-border-color: black;" text="Back">
+                     <HBox.margin>
+                        <Insets left="285.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>
