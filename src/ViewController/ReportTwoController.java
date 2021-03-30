@@ -25,6 +25,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * Initializes Report Two Controller
+ */
 public class ReportTwoController implements Initializable {
 
     @FXML private Label reportTwoLabel;
@@ -48,6 +51,10 @@ public class ReportTwoController implements Initializable {
     @FXML private ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
     @FXML private ObservableList<Contacts> contactsObservableList = FXCollections.observableArrayList();
 
+    /**
+     * Action for what happens when the Contact One Button is Pressed
+     * @param buttonClicked
+     */
     @FXML public void contactOneButtonPressed(ActionEvent buttonClicked) {
         appointmentsTableView.getItems().clear();
 
@@ -59,6 +66,10 @@ public class ReportTwoController implements Initializable {
         appointmentsTableView.setItems(contactOneObservableList);
     }
 
+    /**
+     * Action for what happens when the Contact Two Button is Pressed
+     * @param buttonClicked
+     */
     @FXML public void contactTwoButtonPressed(ActionEvent buttonClicked) {
         appointmentsTableView.getItems().clear();
 
@@ -70,6 +81,10 @@ public class ReportTwoController implements Initializable {
         appointmentsTableView.setItems(contactTwoObservableList);
     }
 
+    /**
+     * Action for what happens when the Contact Three Button is Pressed
+     * @param buttonClicked
+     */
     @FXML public void contactThreeButtonPressed(ActionEvent buttonClicked) {
         appointmentsTableView.getItems().clear();
 
@@ -81,6 +96,11 @@ public class ReportTwoController implements Initializable {
         appointmentsTableView.setItems(contactThreeObservableList);
     }
 
+    /**
+     * Action for what happens when Back button is pressed
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void backButtonPressed(ActionEvent buttonClicked) throws Exception{
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -101,6 +121,13 @@ public class ReportTwoController implements Initializable {
         }
     }
 
+    /**
+     * Method for loading new screen
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -110,6 +137,11 @@ public class ReportTwoController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Initialize method
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

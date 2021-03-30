@@ -140,15 +140,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Start
+     * @return start
      */
     public LocalDateTime getStart() {
         return start;
     }
 
     /**
-     *
+     * Setter for Start
      * @param start
      */
     public void setStart(LocalDateTime start) {
@@ -156,15 +156,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for End
+     * @return End
      */
     public LocalDateTime getEnd() {
         return end;
     }
 
     /**
-     *
+     * Setter for End
      * @param end
      */
     public void setEnd(LocalDateTime end) {
@@ -172,15 +172,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Create Date
+     * @return Create Date
      */
     public LocalDateTime getCreateDate() {
         return createDate;
     }
 
     /**
-     *
+     * Setter for Create Date
      * @param createDate
      */
     public void setCreateDate(LocalDateTime createDate) {
@@ -188,15 +188,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Created By
+     * @return Created By
      */
     public String getCreatedBy() {
         return createdBy;
     }
 
     /**
-     *
+     * Setter for Created By
      * @param createdBy
      */
     public void setCreatedBy(String createdBy) {
@@ -204,15 +204,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Last Update
+     * @return Last Update
      */
     public Timestamp getLastUpdate() {
         return lastUpdate;
     }
 
     /**
-     *
+     * Setter for Last Update
      * @param lastUpdate
      */
     public void setLastUpdate(Timestamp lastUpdate) {
@@ -220,15 +220,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Last Updated By
+     * @return Last Updated By
      */
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
     /**
-     *
+     * Setter for Last Updated By
      * @param lastUpdatedBy
      */
     public void setLastUpdatedBy(String lastUpdatedBy) {
@@ -236,15 +236,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Customer ID
+     * @return Customer ID
      */
     public int getCustomerId() {
         return customerId;
     }
 
     /**
-     *
+     * Setter for Customer ID
      * @param customerId
      */
     public void setCustomerId(int customerId) {
@@ -252,15 +252,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for User ID
+     * @return User ID
      */
     public int getUserId() {
         return userId;
     }
 
     /**
-     *
+     * Setter for User ID
      * @param userId
      */
     public void setUserId(int userId) {
@@ -268,15 +268,15 @@ public class Appointments {
     }
 
     /**
-     *
-     * @return
+     * Getter for Contact ID
+     * @return Contact ID
      */
     public int getContactId() {
         return contactId;
     }
 
     /**
-     *
+     * Setter for Contact ID
      * @param contactId
      */
     public void setContactId(int contactId) {

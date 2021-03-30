@@ -18,6 +18,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
+/**
+ * HelperMethods Class Declaration
+ */
 public class HelperMethods {
     @FXML private static ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
     @FXML private static ObservableList<Appointments> customerAppointments = FXCollections.observableArrayList();
@@ -26,14 +29,14 @@ public class HelperMethods {
 
 
     /**
-     *
+     * Checks to see if there are empty fields in the customer creation and modification screens
      * @param name
      * @param address
      * @param postalCode
      * @param phone
      * @param firstLevelSelection
      * @param emptyValidator
-     * @return
+     * @return emptyValidator
      */
     public static String emptyCustomerTextFieldValidator(
             String name,
@@ -67,12 +70,12 @@ public class HelperMethods {
     }
 
     /**
-     *
+     * Validates the customer text fields data
      * @param postalCode
      * @param phone
      * @param countryName
      * @param textValidator
-     * @return
+     * @return textValidator
      */
     public static String customerTextFieldValidator(
             String postalCode,
@@ -107,7 +110,7 @@ public class HelperMethods {
     }
 
     /**
-     *
+     * Checks the appointment text fields for empty fields
      * @param title
      * @param description
      * @param location
@@ -122,7 +125,7 @@ public class HelperMethods {
      * @param customerID
      * @param userID
      * @param emptyAppointment
-     * @return
+     * @return emptyAppointment
      */
     public static String emptyAppointmentTextFieldValidator(
             String title,
@@ -195,7 +198,7 @@ public class HelperMethods {
     }
 
     /**
-     *
+     * Validates the data in the appointment text fields
      * @param startDate
      * @param startTime
      * @param startMinutes
@@ -205,7 +208,7 @@ public class HelperMethods {
      * @param customerID
      * @param userID
      * @param appointmentValidator
-     * @return
+     * @return appointmentValidator
      */
     public static String appointmentTextFieldValidator(
             String startDate,
@@ -348,5 +351,4 @@ public class HelperMethods {
 
         return appointmentValidator;
     }
-
 }

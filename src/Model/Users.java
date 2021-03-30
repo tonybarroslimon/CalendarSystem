@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
- *
+ * Establishes the Users Class
  */
 public class Users {
     private int userId; // Primary Key
@@ -17,7 +17,7 @@ public class Users {
     private String lastUpdatedBy;
 
     /**
-     *
+     * Users Constructor
      * @param userId
      * @param userName
      * @param password
@@ -38,15 +38,15 @@ public class Users {
     }
 
     /**
-     *
-     * @return
+     * Getting method for User ID
+     * @return the user ID
      */
     public int getUserId() {
         return userId;
     }
 
     /**
-     *
+     * Setter method for User ID
      * @param userId
      */
     public void setUserId(int userId) {
@@ -54,15 +54,15 @@ public class Users {
     }
 
     /**
-     *
-     * @return
+     * Getter method for User Name
+     * @return the User Name
      */
     public String getUserName() {
         return userName;
     }
 
     /**
-     *
+     * Setter method for User Name
      * @param userName
      */
     public void setUserName(String userName) {
@@ -70,15 +70,15 @@ public class Users {
     }
 
     /**
-     *
-     * @return
+     * Getter method for Password
+     * @return the Password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     *
+     * Setter method for Password
      * @param password
      */
     public void setPassword(String password) {
@@ -86,15 +86,15 @@ public class Users {
     }
 
     /**
-     *
-     * @return
+     * Getter method for the Create Date
+     * @return the Create Date
      */
     public LocalDateTime getCreateDate() {
         return createDate;
     }
 
     /**
-     *
+     * Setter method for the Create Date
      * @param createDate
      */
     public void setCreateDate(LocalDateTime createDate) {
@@ -102,15 +102,15 @@ public class Users {
     }
 
     /**
-     *
-     * @return
+     * Getter method for the Created By Field
+     * @return who Created the user
      */
     public String getCreatedBy() {
         return createdBy;
     }
 
     /**
-     *
+     * Setter method for the created by field
      * @param createdBy
      */
     public void setCreatedBy(String createdBy) {
@@ -118,15 +118,15 @@ public class Users {
     }
 
     /**
-     *
-     * @return
+     * Getter method of getting the last update date
+     * @return last update date
      */
     public Timestamp getLastUpdate() {
         return lastUpdate;
     }
 
     /**
-     *
+     * Setter method for the last update date
      * @param lastUpdate
      */
     public void setLastUpdate(Timestamp lastUpdate) {
@@ -134,7 +134,7 @@ public class Users {
     }
 
     /**
-     *
+     * Getter method for the last updated by
      * @return
      */
     public String getLastUpdatedBy() {
@@ -142,7 +142,7 @@ public class Users {
     }
 
     /**
-     *
+     * Setter method for the last updated by
      * @param lastUpdatedBy
      */
     public void setLastUpdatedBy(String lastUpdatedBy) {

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * ConnectDB class declaration
  */
 public class ConnectDB {
 
@@ -19,8 +19,8 @@ public class ConnectDB {
     public static Connection conn;
 
     /**
-     *
-     * @return
+     * Establishes the connection with the database
+     * @return conn
      * @throws ClassNotFoundException
      * @throws SQLException
      */
@@ -32,7 +32,7 @@ public class ConnectDB {
     }
 
     /**
-     *
+     * Closes the db connection
      * @throws SQLException
      */
     public static void closeConnection() throws SQLException {

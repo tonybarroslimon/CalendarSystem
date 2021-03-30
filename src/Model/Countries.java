@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- *
+ * Countries Class Declaration
  */
 public class Countries {
     private int countryId; // Primary Key
@@ -18,7 +18,7 @@ public class Countries {
     private String lastUpdatedBy;
 
     /**
-     *
+     * Countries class constructor
      * @param countryId
      * @param country
      * @param createDate
@@ -36,15 +36,15 @@ public class Countries {
     }
 
     /**
-     *
-     * @return
+     * Getter for Country ID
+     * @return Country ID
      */
     public int getCountryId() {
         return countryId;
     }
 
     /**
-     *
+     * Setter for Country ID
      * @param countryId
      */
     public void setCountryId(int countryId) {
@@ -52,15 +52,15 @@ public class Countries {
     }
 
     /**
-     *
-     * @return
+     * Getter for Country
+     * @return Country
      */
     public String getCountry() {
         return country;
     }
 
     /**
-     *
+     * Setter for Country
      * @param country
      */
     public void setCountry(String country) {
@@ -68,15 +68,15 @@ public class Countries {
     }
 
     /**
-     *
-     * @return
+     * Getter for Create Date
+     * @return Create Date
      */
     public LocalDateTime getCreateDate() {
         return createDate;
     }
 
     /**
-     *
+     * Setter for Create Date
      * @param createDate
      */
     public void setCreateDate(LocalDateTime createDate) {
@@ -84,15 +84,15 @@ public class Countries {
     }
 
     /**
-     *
-     * @return
+     * Getter for Created By
+     * @return Created By
      */
     public String getCreatedBy() {
         return createdBy;
     }
 
     /**
-     *
+     * Setter for Created By
      * @param createdBy
      */
     public void setCreatedBy(String createdBy) {
@@ -100,15 +100,15 @@ public class Countries {
     }
 
     /**
-     *
-     * @return
+     * Getter for Last Update
+     * @return Last Update
      */
     public Timestamp getLastUpdate() {
         return lastUpdate;
     }
 
     /**
-     *
+     * Setter for Last Update
      * @param lastUpdate
      */
     public void setLastUpdate(Timestamp lastUpdate) {
@@ -116,15 +116,15 @@ public class Countries {
     }
 
     /**
-     *
-     * @return
+     * Getter for Last Updated By
+     * @return Last Updated By
      */
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
     /**
-     *
+     * Setter for Last Updated By
      * @param lastUpdatedBy
      */
     public void setLastUpdatedBy(String lastUpdatedBy) {
