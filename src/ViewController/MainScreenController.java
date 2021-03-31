@@ -402,16 +402,14 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Initializes the page
+     * Initializes the page. LAMBDA function here sets a variable with the selected date and it calls the radiobuttonChanged
+     * method to force that block of code to run. Otherwise I would need to write some callback method that would require
+     * a lot more work to get working. This LAMBDA lets me do it in about 5 lines of code.
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*
-        TODO:
-        JavaDocs
-        */
 
         monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
         weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
@@ -419,7 +417,7 @@ public class MainScreenController implements Initializable {
         customersObject.removeAll(customersObject);
         appointmentsObject.removeAll(appointmentsObject);
 
-        // Lambda to handle the selection of a date on the Main Controller
+        // Lambda as described above
         datePicker.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 date = datePicker.getValue();

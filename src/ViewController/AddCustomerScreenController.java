@@ -205,14 +205,17 @@ public class AddCustomerScreenController implements Initializable {
     }
 
     /**
-     * Initializes the page
+     * Initializes the page. LAMBDA expression to handle the selection of the country from the country combo box. I needed this LAMBDA as
+     * it made the process for assigning the selection to the variable much easier than any other way to do it. Also, I
+     * was able to incorporate a few other steps with one simple LAMBDA Method. Specifically the ability to also filter
+     * down the first level divisions box to only the relevant states/providences/regions.
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // LAMBDA expression to handle the selection of the country from the country combo box
+        // LAMBDA expression described above.
         countryComboBox.setOnAction((event) -> {
             selectedCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
             firstLevelListView.getItems().clear();
