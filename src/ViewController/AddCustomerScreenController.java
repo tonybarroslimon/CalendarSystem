@@ -27,6 +27,9 @@ import java.util.ResourceBundle;
 import static Utilites.HelperMethods.emptyCustomerTextFieldValidator;
 import static Utilites.HelperMethods.customerTextFieldValidator;
 
+/**
+ * Initializes the Add Customer Controller
+ */
 public class AddCustomerScreenController implements Initializable {
 
     @FXML private Label titleHeaderLabel;
@@ -56,7 +59,13 @@ public class AddCustomerScreenController implements Initializable {
     @FXML private String customerTextField = new String();
     private int divisionId;
 
-
+    /**
+     * Method to load new scene
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -66,6 +75,11 @@ public class AddCustomerScreenController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Action for when the Save Button is clicked
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
 
         String customerName = customerNameTextField.getText();
@@ -155,6 +169,11 @@ public class AddCustomerScreenController implements Initializable {
         }
     }
 
+    /**
+     * Action for when the cancel button is clicked
+     * @param buttonClicked
+     * @throws IOException
+     */
     @FXML public void cancelButtonClicked(ActionEvent buttonClicked) throws IOException {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -185,6 +204,11 @@ public class AddCustomerScreenController implements Initializable {
         return filteredList;
     }
 
+    /**
+     * Initializes the page
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

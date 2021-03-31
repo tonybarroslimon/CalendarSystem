@@ -34,6 +34,9 @@ import static Utilites.HelperMethods.emptyAppointmentTextFieldValidator;
 import static ViewController.LoginScreenController.getActiveUser;
 import static ViewController.MainScreenController.getSelectedAppointment;
 
+/**
+ * Initializes the Modify Appointment Controller
+ */
 public class ModifyAppointmentScreenController implements Initializable {
 
     @FXML private Label titleHeaderLabel;
@@ -79,6 +82,13 @@ public class ModifyAppointmentScreenController implements Initializable {
     @FXML private LocalDateTime selectedAppointmentStartDate;
     @FXML private LocalDateTime selectedAppointmentEndDate;
 
+    /**
+     * Method for loading new scnee
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -88,6 +98,11 @@ public class ModifyAppointmentScreenController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Action for when the Save button is pressedd
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
@@ -216,6 +231,11 @@ public class ModifyAppointmentScreenController implements Initializable {
         }
     }
 
+    /**
+     * Action for when the Cancel button is clicked
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void cancelButtonClicked(ActionEvent buttonClicked) throws Exception {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -236,6 +256,11 @@ public class ModifyAppointmentScreenController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

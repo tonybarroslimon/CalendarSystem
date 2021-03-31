@@ -29,6 +29,9 @@ import static Utilites.HelperMethods.appointmentTextFieldValidator;
 import static Utilites.HelperMethods.emptyAppointmentTextFieldValidator;
 import static ViewController.LoginScreenController.getActiveUser;
 
+/**
+ * Initializes the Add Appointment controller
+ */
 public class AddAppointmentScreenController implements Initializable {
 
     @FXML private Label titleHeaderLabel;
@@ -69,7 +72,7 @@ public class AddAppointmentScreenController implements Initializable {
     private int contactID;
 
     /**
-     *
+     * Method for loading a new scene
      * @param fxmlScreen
      * @param actionEvent
      * @param title
@@ -85,7 +88,7 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     /**
-     *
+     * action for when the save button is clicked
      * @param buttonClicked
      * @throws Exception
      */
@@ -224,7 +227,7 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     /**
-     *
+     * action for when the cancel button
      * @param buttonClicked
      * @throws Exception
      */
@@ -249,7 +252,7 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     /**
-     *
+     * Initializes the page
      * @param url
      * @param resourceBundle
      */

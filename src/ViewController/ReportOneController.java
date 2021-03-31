@@ -25,6 +25,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Initializes the Report One Controller
+ */
 public class ReportOneController implements Initializable {
     @FXML private Label reportOneLabel;
     @FXML private Button backButton;
@@ -39,6 +42,13 @@ public class ReportOneController implements Initializable {
     @FXML private ResultSet monthResultSet;
     @FXML private ObservableList<ReportOneMonth> monthObjects = FXCollections.observableArrayList();
 
+    /**
+     * Method for loading a new scene
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -48,6 +58,11 @@ public class ReportOneController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Action for when the back button is pressed
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void backButtonClicked(ActionEvent buttonClicked) throws Exception {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -68,6 +83,11 @@ public class ReportOneController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the page
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

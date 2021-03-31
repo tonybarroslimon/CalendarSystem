@@ -46,7 +46,7 @@ public class LoginScreenController implements Initializable {
     private static Users activeUser;
 
     /**
-     *
+     * method for getting the active user
      * @return the active user
      */
     public static Users getActiveUser() {

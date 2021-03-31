@@ -23,6 +23,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Initializes the Report Three Controller
+ */
 public class ReportThreeController implements Initializable {
 
     @FXML private Label reportThreeLabel;
@@ -33,6 +36,11 @@ public class ReportThreeController implements Initializable {
     @FXML private ResultSet customerIdResultSet;
     @FXML private ObservableList<ReportThree> customerIDObjects = FXCollections.observableArrayList();
 
+    /**
+     * Action for when the back button is clicked
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void backButtonPressed(ActionEvent buttonClicked) throws Exception{
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -53,6 +61,13 @@ public class ReportThreeController implements Initializable {
         }
     }
 
+    /**
+     * Method for loading a new scene
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -62,6 +77,11 @@ public class ReportThreeController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Initialize the page
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

@@ -77,7 +77,7 @@ public class MainScreenController implements Initializable {
     private ToggleGroup radioButtonSelected = new ToggleGroup();
 
     /**
-     *
+     * Method for loading a new scene
      * @param fxmlScreen
      * @param actionEvent
      * @param title
@@ -93,7 +93,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Method of handling a radio button being changed
      * @param event
      * @throws Exception
      */
@@ -182,7 +182,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the add appointment button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -191,7 +191,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the modify appointment button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -211,7 +211,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the delete appointment button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -255,7 +255,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the add customer button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -264,7 +264,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the modify customer button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -284,7 +284,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the delete customer button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -339,7 +339,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the report one button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -348,7 +348,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the report two button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -357,7 +357,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the report three button is pressed
      * @param buttonClicked
      * @throws Exception
      */
@@ -366,7 +366,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
+     * Action for handling when the exit button is pressed
      * @param buttonClicked
      * @throws SQLException
      */
@@ -386,23 +386,23 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     *
-     * @return
+     * Getter for the selected customer
+     * @return selectedCustomer
      */
     public static Customers getSelectedCustomer() {
         return selectedCustomer;
     }
 
     /**
-     *
-     * @return
+     * Getter for the selected appointment
+     * @return selectedAppointment
      */
     public static Appointments getSelectedAppointment() {
         return selectedAppointment;
     }
 
     /**
-     *
+     * Initializes the page
      * @param url
      * @param resourceBundle
      */

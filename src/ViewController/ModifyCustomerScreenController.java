@@ -29,6 +29,9 @@ import static Utilites.HelperMethods.emptyCustomerTextFieldValidator;
 import static ViewController.LoginScreenController.getActiveUser;
 import static ViewController.MainScreenController.getSelectedCustomer;
 
+/**
+ * Initializes the Modify Customer Controller
+ */
 public class ModifyCustomerScreenController implements Initializable {
 
     @FXML private Label titleHeaderLabel;
@@ -60,6 +63,13 @@ public class ModifyCustomerScreenController implements Initializable {
     @FXML private Customers selectedCustomer;
     @FXML private int selectedCustomerId;
 
+    /**
+     * Method for loading new scene
+     * @param fxmlScreen
+     * @param actionEvent
+     * @param title
+     * @throws Exception
+     */
     @FXML public void loadNewScreen(String fxmlScreen, ActionEvent actionEvent, String title) throws Exception{
         Parent newScreen = FXMLLoader.load(getClass().getResource(fxmlScreen));
         Scene newScene = new Scene(newScreen);
@@ -69,6 +79,11 @@ public class ModifyCustomerScreenController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Action for when Save Button is clicked
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void saveButtonClicked(ActionEvent buttonClicked) throws Exception {
 
         String customerName = customerNameTextField.getText();
@@ -152,6 +167,11 @@ public class ModifyCustomerScreenController implements Initializable {
         }
     }
 
+    /**
+     * Action for when cancel button is pressed
+     * @param buttonClicked
+     * @throws Exception
+     */
     @FXML public void cancelButtonClicked(ActionEvent buttonClicked) throws Exception {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -182,6 +202,11 @@ public class ModifyCustomerScreenController implements Initializable {
         return filteredList;
     }
 
+    /**
+     * Initializes the scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
