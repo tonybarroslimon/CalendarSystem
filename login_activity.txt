@@ -58,3 +58,288 @@ INFO:
 Feb 17, 2021 5:16:52 PM ViewController.LoginScreenController writeToFile
 INFO: 
 2021-02-18T01:16:52.229562Z Login Successful
+Feb 17, 2021 10:53:09 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-18T06:53:09.611095Z Login Successful
+Feb 17, 2021 11:14:08 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-18T07:14:08.194404Z Login Successful
+Feb 18, 2021 12:01:42 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-18T08:01:42.610143Z Login Successful
+Feb 18, 2021 12:03:30 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-18T08:03:30.675577Z Login Successful
+Feb 20, 2021 5:15:11 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-21T01:15:11.728991Z Login Successful
+Feb 20, 2021 5:23:57 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-21T01:23:57.457060Z Login Successful
+Feb 20, 2021 5:27:20 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-21T01:27:20.549706Z Login Successful
+Feb 20, 2021 5:31:21 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-21T01:31:21.176633Z Login Successful
+Feb 20, 2021 10:55:40 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-21T06:55:40.575318Z Login Successful
+Feb 20, 2021 11:37:17 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-21T07:37:17.596438Z Login Successful
+Feb 22, 2021 10:52:44 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-23T06:52:44.058057Z Login Successful
+Feb 23, 2021 12:05:43 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-23T08:05:43.248460Z Login Successful
+Feb 23, 2021 2:04:54 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-23T22:04:54.579406Z Login Successful
+Feb 23, 2021 2:08:39 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-23T22:08:39.648150Z Login Successful
+Feb 25, 2021 11:41:52 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-26T07:41:52.936513Z Login Successful
+Feb 25, 2021 11:43:50 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-26T07:43:50.866531Z Login Successful
+Feb 26, 2021 12:18:45 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-26T08:18:45.840436Z Login Successful
+Feb 26, 2021 10:08:43 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-27T06:08:43.687618Z Login Successful
+Feb 26, 2021 10:28:09 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-27T06:28:09.169740Z Login Successful
+Feb 26, 2021 10:28:43 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-27T06:28:43.993779Z Login Successful
+Feb 26, 2021 11:32:30 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-02-27T07:32:30.151718Z Login Successful
+Mar 02, 2021 1:02:48 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T21:02:48.366969Z Login Successful
+Mar 02, 2021 1:05:48 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T21:05:48.644920Z Login Successful
+Mar 02, 2021 1:10:54 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T21:10:54.504299Z Login Successful
+Mar 02, 2021 1:29:25 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T21:29:25.680137Z Login Successful
+Mar 02, 2021 3:47:43 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T23:47:43.576738Z Login Successful
+Mar 02, 2021 3:49:25 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T23:49:25.925758Z Login Successful
+Mar 02, 2021 3:51:14 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-02T23:51:14.364387Z Login Successful
+Mar 03, 2021 2:01:09 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-03T22:01:09.316587Z Login Successful
+Mar 06, 2021 9:35:05 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T05:35:05.072910Z Login Successful
+Mar 06, 2021 9:42:54 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T05:42:54.986504Z Login Successful
+Mar 06, 2021 9:44:56 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T05:44:56.122056Z Login Successful
+Mar 06, 2021 9:46:32 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T05:46:32.694177Z Login Successful
+Mar 06, 2021 9:49:32 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T05:49:32.767535Z Login Successful
+Mar 06, 2021 9:57:46 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T05:57:46.887849Z Login Successful
+Mar 06, 2021 10:00:46 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:00:46.912505Z Login Successful
+Mar 06, 2021 10:02:26 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:02:26.452362Z Login Successful
+Mar 06, 2021 10:03:19 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:03:19.560725Z Login Successful
+Mar 06, 2021 10:04:30 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:04:30.014955Z Login Successful
+Mar 06, 2021 10:07:52 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:07:52.778305Z Login Successful
+Mar 06, 2021 10:08:43 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:08:43.560474Z Login Successful
+Mar 06, 2021 10:12:51 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:12:51.428651Z Login Successful
+Mar 06, 2021 10:14:21 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:14:21.445666Z Login Successful
+Mar 06, 2021 10:15:29 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:15:29.924708Z Login Successful
+Mar 06, 2021 10:17:48 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:17:48.441050Z Login Successful
+Mar 06, 2021 10:20:09 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:20:09.184797Z Login Successful
+Mar 06, 2021 10:23:17 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:23:17.631611Z Login Successful
+Mar 06, 2021 10:26:46 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:26:46.713630Z Login Successful
+Mar 06, 2021 10:28:31 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:28:31.961070Z Login Successful
+Mar 06, 2021 10:30:48 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:30:48.531981Z Login Successful
+Mar 06, 2021 10:33:33 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:33:33.182189Z Login Successful
+Mar 06, 2021 10:35:01 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:35:01.690125Z Login Successful
+Mar 06, 2021 10:38:00 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:38:00.090544Z Login Successful
+Mar 06, 2021 10:39:26 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:39:26.248933Z Login Successful
+Mar 06, 2021 10:41:37 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T06:41:37.349861Z Login Successful
+Mar 06, 2021 11:12:55 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T07:12:55.935545Z Login Successful
+Mar 06, 2021 11:14:19 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T07:14:19.230638Z Login Successful
+Mar 06, 2021 11:15:15 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T07:15:15.623323Z Login Successful
+Mar 06, 2021 11:17:25 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T07:17:25.309975Z Login Successful
+Mar 06, 2021 11:19:42 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T07:19:42.503160Z Login Successful
+Mar 07, 2021 12:21:00 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T08:21:00.414108Z Login Successful
+Mar 07, 2021 12:21:34 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T08:21:34.726473Z Login Successful
+Mar 07, 2021 12:24:43 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T08:24:43.973351Z Login Successful
+Mar 07, 2021 12:45:16 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T08:45:16.044782Z Login Successful
+Mar 07, 2021 12:52:30 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-07T08:52:30.454182Z Login Successful
+Mar 08, 2021 5:41:40 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T01:41:40.200693Z Login Successful
+Mar 08, 2021 5:43:05 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T01:43:05.573342Z Login Successful
+Mar 08, 2021 5:44:02 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T01:44:02.807890Z Login Successful
+Mar 08, 2021 10:32:30 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T06:32:30.942118Z Login Successful
+Mar 08, 2021 10:56:06 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T06:56:06.332304Z Login Successful
+Mar 08, 2021 11:10:40 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T07:10:40.938307Z Login Successful
+Mar 08, 2021 11:13:59 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T07:13:59.340106Z Login Successful
+Mar 08, 2021 11:16:30 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T07:16:30.416332Z Login Successful
+Mar 08, 2021 11:20:49 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-09T07:20:49.706290Z Login Successful
+Mar 10, 2021 11:45:21 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-11T07:45:21.340548Z Login Successful
+Mar 10, 2021 11:48:42 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-11T07:48:42.236863Z Login Successful
+Mar 11, 2021 12:13:10 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-11T08:13:10.378623Z Login Successful
+Mar 13, 2021 10:38:31 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-14T06:38:31.011987Z Login Successful
+Mar 16, 2021 11:56:25 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-17T06:56:25.102353Z Login Successful
+Mar 17, 2021 12:06:15 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-17T07:06:15.423795Z Login Successful
+Mar 21, 2021 7:02:56 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-22T02:02:56.622488Z Login Successful
+Mar 21, 2021 10:50:28 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-22T05:50:28.610868Z Login Successful
+Mar 21, 2021 11:41:45 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-22T06:41:45.946719Z Login Successful
+Mar 21, 2021 11:43:26 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-22T06:43:26.310754Z Login Successful
+Mar 28, 2021 12:32:28 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-28T07:32:28.556811Z Login Successful
+Mar 28, 2021 12:36:10 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-28T07:36:10.834655Z Login Successful
+Mar 28, 2021 12:41:40 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-28T07:41:40.106814Z Login Successful
+Mar 28, 2021 12:49:44 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-28T07:49:44.766684Z Login Successful
+Mar 28, 2021 10:41:17 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-29T05:41:17.263234Z Login Successful
+Mar 28, 2021 10:46:48 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-29T05:46:48.459994Z Login Successful
+Mar 29, 2021 12:07:18 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-29T07:07:18.310657Z Login Successful
+Mar 29, 2021 12:17:56 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-29T07:17:56.066490Z Login Successful
+Mar 29, 2021 12:21:15 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-29T07:21:15.859551Z Login Successful
+Mar 30, 2021 12:09:05 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-30T07:09:05.369695Z Login Successful
+Mar 30, 2021 12:38:00 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-03-30T07:38:00.707883Z Login Successful
