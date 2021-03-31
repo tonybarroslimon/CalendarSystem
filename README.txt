@@ -10,7 +10,7 @@ Version 1.0
 Date: 03/30/2021
 
 IDE: IntelliJ IDEA 2020.3.3 (Community Edition)
-JDK: JAVA 11.0.9
+JDK: JAVA JDK 11.0.9
 JAVAFX: javafx-sdk-15.0.1
 MYSQL CONNECTOR: mysql-connector-java-8.0.22
 
