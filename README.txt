@@ -6,8 +6,10 @@ Program Start Date: July 1, 2018
 c 415-638-7646 (Pacific Time)
 abar207@wgu.edu
 
-Version 1.0
-Date: 03/30/2021
+Name: Calendar System
+Purpose: A calendar system to help a company schedule meetings with customers and employees.
+Version 1.1
+Date: 03/31/2021
 
 IDE: IntelliJ IDEA 2020.3.3 (Community Edition)
 JDK: JAVA JDK 11.0.9
