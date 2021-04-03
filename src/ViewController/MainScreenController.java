@@ -22,10 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.*;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
+import java.time.*;
 import java.time.temporal.WeekFields;
 import java.util.ResourceBundle;
 import static ViewController.LoginScreenController.getActiveUser;
@@ -211,7 +208,8 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Action for handling when the delete appointment button is pressed
+     * Action for handling when the delete appointment button is pressed. There is a LAMBDA expression here for
+     * handling the action for an alert and what we do once a button in the alert is pressed.
      * @param buttonClicked
      * @throws Exception
      */
@@ -236,6 +234,15 @@ public class MainScreenController implements Initializable {
                         preparedStatement.setInt(1, appointmentToDelete.getAppointmentId());
 
                         int appointmentDeletion = preparedStatement.executeUpdate();
+
+                        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                        infoAlert.setTitle("Delete Appointment");
+                        infoAlert.setHeaderText("Appointment was successfully deleted");
+                        infoAlert.setContentText("Appointment ID: " + appointmentToDelete.getAppointmentId() + "\nAppointment Type: " + appointmentToDelete.getType());
+                        // LAMBDA as described above
+                        infoAlert.showAndWait()
+                                .filter(response -> response == ButtonType.OK)
+                                .ifPresent(response -> infoAlert.close());
 
                         System.out.println("Appointment was deleted successfully!");
                     }
@@ -473,6 +480,29 @@ public class MainScreenController implements Initializable {
 
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
+        }
+
+        for (Appointments appointmentStarts : appointmentsObject) {
+            ZoneId zoneId = ZoneId.systemDefault();
+            ZonedDateTime zonedStartDateTime = ZonedDateTime.of(appointmentStarts.getStart(), zoneId);
+            ZonedDateTime fifteenMinutesFromNow = ZonedDateTime.now().plusMinutes(15);
+            ZonedDateTime zonedNow = ZonedDateTime.now();
+
+            if (zonedStartDateTime.isBefore(fifteenMinutesFromNow) && zonedStartDateTime.isAfter(zonedNow)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("New Appointments");
+                alert.setHeaderText("Upcoming Appointments");
+                alert.setContentText("You have an appointment starting in the next 15 mins"
+                                + "\nTitle: " + appointmentStarts.getTitle()
+                                + "\nStart Time: " + zonedStartDateTime.toString());
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("New Appointments");
+                alert.setHeaderText("Upcoming Appointments");
+                alert.setContentText("No upcoming appointments");
+                alert.showAndWait();
+            }
         }
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
