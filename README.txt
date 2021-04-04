@@ -14,7 +14,7 @@ Date: 03/31/2021
 IDE: IntelliJ IDEA 2020.3.3 (Community Edition)
 JDK: JAVA JDK 11.0.9
 JAVAFX: javafx-sdk-15.0.1
-MYSQL CONNECTOR: mysql-connector-java-8.0.22
+MYSQL CONNECTOR: mysql-connector-java-8.0.23
 
 Instructions:
 1. Launch the application from the IDE

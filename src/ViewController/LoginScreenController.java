@@ -1,7 +1,10 @@
 package ViewController;
 
+import Model.Appointments;
 import Model.Users;
 import Utilites.ConnectDB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +23,7 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.FileHandler;
@@ -44,6 +48,8 @@ public class LoginScreenController implements Initializable {
     @FXML private ResultSet loginResultSet;
     @FXML private Boolean loginResultBoolean = false;
     private static Users activeUser;
+    @FXML private ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
+    @FXML private ResultSet appointmentsResultSet;
 
     /**
      * method for getting the active user
@@ -113,27 +119,30 @@ public class LoginScreenController implements Initializable {
         String enteredPassword = passwordTextField.getText();
 
         // Goes to the database and grabs the information for username and password to validate the data
-        try (Connection conn = new ConnectDB().makeConnection();
-             PreparedStatement preparedStatement =
-                     conn.prepareStatement("SELECT * FROM users WHERE user_name = ? AND password = ?")) {
-                preparedStatement.setString(1, enteredUsername);
-                preparedStatement.setString(2, enteredPassword);
+        try {
+            Connection conn = new ConnectDB().makeConnection();
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("SELECT * FROM users WHERE User_Name = ? AND Password = ?");
+            preparedStatement.setString(1, enteredUsername);
+            preparedStatement.setString(2, enteredPassword);
 
-                loginResultSet = preparedStatement.executeQuery();
+            loginResultSet = preparedStatement.executeQuery();
 
-                if (loginResultSet.next()) {
-                    loginResultBoolean = true;
-                    activeUser = new Users(
-                            loginResultSet.getInt("User_ID"),
-                            loginResultSet.getString("User_Name"),
-                            loginResultSet.getString("Password"),
-                            loginResultSet.getObject("Create_Date", LocalDateTime.class),
-                            loginResultSet.getString("Created_By"),
-                            loginResultSet.getTimestamp("Last_Update"),
-                            loginResultSet.getString("Last_Updated_By")
-                    );
-                }
-        } catch (SQLException | ClassNotFoundException throwables) {
+            if (loginResultSet.next()) {
+                loginResultBoolean = true;
+                activeUser = new Users(
+                        loginResultSet.getInt("User_ID"),
+                        loginResultSet.getString("User_Name"),
+                        loginResultSet.getString("Password"),
+                        loginResultSet.getObject("Create_Date", LocalDateTime.class),
+                        loginResultSet.getString("Created_By"),
+                        loginResultSet.getTimestamp("Last_Update"),
+                        loginResultSet.getString("Last_Updated_By")
+                );
+            }
+
+
+        }catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
 
@@ -151,6 +160,58 @@ public class LoginScreenController implements Initializable {
         }
         else {
             writeToFile(true);
+
+            try {
+                Connection conn = ConnectDB.makeConnection();
+                PreparedStatement appointmentPreparedStatement =
+                        conn.prepareStatement("SELECT * FROM appointments WHERE User_ID = ?;");
+                appointmentPreparedStatement.setInt(1, activeUser.getUserId());
+                appointmentsResultSet = appointmentPreparedStatement.executeQuery();
+
+                while (appointmentsResultSet.next()) {
+                    allAppointments.addAll(new Appointments(
+                            appointmentsResultSet.getInt("Appointment_ID"),
+                            appointmentsResultSet.getString("Title"),
+                            appointmentsResultSet.getString("Description"),
+                            appointmentsResultSet.getString("Location"),
+                            appointmentsResultSet.getString("Type"),
+                            appointmentsResultSet.getObject("Start", LocalDateTime.class),
+                            appointmentsResultSet.getObject("End", LocalDateTime.class),
+                            appointmentsResultSet.getObject("Create_Date", LocalDateTime.class),
+                            appointmentsResultSet.getString("Created_By"),
+                            appointmentsResultSet.getTimestamp("Last_Update"),
+                            appointmentsResultSet.getString("Last_Updated_By"),
+                            appointmentsResultSet.getInt("Customer_ID"),
+                            appointmentsResultSet.getInt("User_ID"),
+                            appointmentsResultSet.getInt("Contact_ID")
+                    ));
+                }
+
+                for (Appointments appointmentStarts : allAppointments) {
+                    ZoneId zoneId = ZoneId.systemDefault();
+                    ZonedDateTime zonedStartDateTime = ZonedDateTime.of(appointmentStarts.getStart(), zoneId);
+                    ZonedDateTime fifteenMinutesFromNow = ZonedDateTime.now().plusMinutes(15);
+                    ZonedDateTime zonedNow = ZonedDateTime.now();
+
+                    if (zonedStartDateTime.isBefore(fifteenMinutesFromNow) && zonedStartDateTime.isAfter(zonedNow)) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("New Appointments");
+                        alert.setHeaderText("Upcoming Appointments");
+                        alert.setContentText("You have an appointment starting in the next 15 mins"
+                                + "\nTitle: " + appointmentStarts.getTitle()
+                                + "\nStart Time: " + zonedStartDateTime.toString());
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("New Appointments");
+                        alert.setHeaderText("Upcoming Appointments");
+                        alert.setContentText("No upcoming appointments");
+                        alert.showAndWait();
+                    }
+                }
+            } catch  (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
 
             Parent newScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Scene newScene = new Scene(newScreen);
@@ -237,6 +298,8 @@ public class LoginScreenController implements Initializable {
             passwordTextField.setPromptText("tapez votre mot de passe");
             locationLabel.setText("emplacement: " + localZoneId.toString());
         }
+
+
 
     }
 

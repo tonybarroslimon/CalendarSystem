@@ -34,6 +34,7 @@ public class MainScreenController implements Initializable {
 
     @FXML private RadioButton weeklyViewRadioButton;
     @FXML private RadioButton monthlyViewRadioButton;
+    @FXML private RadioButton allViewRadioButton;
     @FXML private TableView<Appointments> appointmentsTableView;
     @FXML private TableColumn<Appointments, Integer> appointmentIDTableColumn;
     @FXML private TableColumn<Appointments, String> titleTableColumn;
@@ -61,7 +62,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button reportThreeButton;
     @FXML private Button exitButton;
     @FXML private DatePicker datePicker;
-    @FXML private LocalDate date;
+    @FXML private LocalDate date = LocalDate.now();
     @FXML private ResultSet customersResultSet;
     @FXML private static ObservableList<Customers> customersObject = FXCollections.observableArrayList();
     @FXML private ResultSet appointmentsResultSet;
@@ -99,78 +100,35 @@ public class MainScreenController implements Initializable {
 
         try{
             if (this.radioButtonSelected.getSelectedToggle().equals(this.weeklyViewRadioButton)){
-                if (date == null) {
-                    LocalDate weeklyLocalTime = LocalDate.now();
-                    int weekNumber = weeklyLocalTime.get(WeekFields.SUNDAY_START.weekOfYear());
 
-                    for (Appointments weeklyAppointments : appointmentsObject) {
-                        appointmentsTableView.getItems().clear();
-                        appointmentsTableView.refresh();
-                        LocalDate startDateNoTime = weeklyAppointments.getStart().toLocalDate();
-                        int appointmentWeekNumber = startDateNoTime.get(WeekFields.SUNDAY_START.weekOfYear());
-                        if (weekNumber == appointmentWeekNumber) {
-                            filteredAppointments.add(weeklyAppointments);
-                            appointmentsTableView.setItems(filteredAppointments);
-                        }
-                    }
-                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.refresh();
-                    }
-                } else {
                     int weekNumber = date.get(WeekFields.SUNDAY_START.weekOfYear());
 
                     for (Appointments weeklyAppointments : appointmentsObject) {
-                        appointmentsTableView.getItems().clear();
-                        appointmentsTableView.refresh();
+
                         LocalDate startDateNoTime = weeklyAppointments.getStart().toLocalDate();
                         int appointmentWeekNumber = startDateNoTime.get(WeekFields.SUNDAY_START.weekOfYear());
                         if (weekNumber == appointmentWeekNumber) {
                             filteredAppointments.add(weeklyAppointments);
-                            appointmentsTableView.setItems(filteredAppointments);
                         }
                     }
-                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.refresh();
-                    }
-                }
+                    appointmentsTableView.setItems(filteredAppointments);
+
             }
             if (this.radioButtonSelected.getSelectedToggle().equals(this.monthlyViewRadioButton)){
-                if (date == null) {
-                    LocalDate monthlyLocalTime = LocalDate.now();
-                    YearMonth monthlyYearMonth = YearMonth.from(monthlyLocalTime);
-
-                    for (Appointments monthlyAppointments : appointmentsObject) {
-                        appointmentsTableView.getItems().clear();
-                        appointmentsTableView.refresh();
-                        LocalDate startDateNoTime = monthlyAppointments.getStart().toLocalDate();
-                        YearMonth convertedYearMonth = YearMonth.from(startDateNoTime);
-                        if (monthlyYearMonth.equals(convertedYearMonth)) {
-                            filteredAppointments.add(monthlyAppointments);
-                            appointmentsTableView.setItems(filteredAppointments);
-                        }
-
-                    }
-                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.refresh();
-                    }
-                } else {
                     YearMonth monthlyYearMonth = YearMonth.from(date);
 
                     for (Appointments monthlyAppointments : appointmentsObject) {
-                        appointmentsTableView.getItems().clear();
-                        appointmentsTableView.refresh();
+
                         LocalDate startDateNoTime = monthlyAppointments.getStart().toLocalDate();
                         YearMonth convertedYearMonth = YearMonth.from(startDateNoTime);
                         if (monthlyYearMonth.equals(convertedYearMonth)) {
                             filteredAppointments.add(monthlyAppointments);
-                            appointmentsTableView.setItems(filteredAppointments);
                         }
-
                     }
-                    if (appointmentsTableView == null || appointmentsTableView.getItems().size() == 0) {
-                        appointmentsTableView.refresh();
-                    }
-                }
+                appointmentsTableView.setItems(filteredAppointments);
+            }
+            if (this.radioButtonSelected.getSelectedToggle().equals(this.allViewRadioButton)){
+                appointmentsTableView.setItems(appointmentsObject);
             }
 
         } catch (NullPointerException e) {
@@ -420,6 +378,7 @@ public class MainScreenController implements Initializable {
 
         monthlyViewRadioButton.setToggleGroup(radioButtonSelected);
         weeklyViewRadioButton.setToggleGroup(radioButtonSelected);
+        allViewRadioButton.setToggleGroup(radioButtonSelected);
 
         customersObject.removeAll(customersObject);
         appointmentsObject.removeAll(appointmentsObject);
@@ -455,8 +414,7 @@ public class MainScreenController implements Initializable {
                 ));
             }
 
-            PreparedStatement appointmentPreparedStatement = conn.prepareStatement("SELECT * FROM appointments WHERE User_ID = ?;");
-            appointmentPreparedStatement.setInt(1, user.getUserId());
+            PreparedStatement appointmentPreparedStatement = conn.prepareStatement("SELECT * FROM appointments;");
             appointmentsResultSet = appointmentPreparedStatement.executeQuery();
 
             while (appointmentsResultSet.next()) {
@@ -480,29 +438,6 @@ public class MainScreenController implements Initializable {
 
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        }
-
-        for (Appointments appointmentStarts : appointmentsObject) {
-            ZoneId zoneId = ZoneId.systemDefault();
-            ZonedDateTime zonedStartDateTime = ZonedDateTime.of(appointmentStarts.getStart(), zoneId);
-            ZonedDateTime fifteenMinutesFromNow = ZonedDateTime.now().plusMinutes(15);
-            ZonedDateTime zonedNow = ZonedDateTime.now();
-
-            if (zonedStartDateTime.isBefore(fifteenMinutesFromNow) && zonedStartDateTime.isAfter(zonedNow)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("New Appointments");
-                alert.setHeaderText("Upcoming Appointments");
-                alert.setContentText("You have an appointment starting in the next 15 mins"
-                                + "\nTitle: " + appointmentStarts.getTitle()
-                                + "\nStart Time: " + zonedStartDateTime.toString());
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("New Appointments");
-                alert.setHeaderText("Upcoming Appointments");
-                alert.setContentText("No upcoming appointments");
-                alert.showAndWait();
-            }
         }
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
