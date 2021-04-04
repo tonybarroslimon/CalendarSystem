@@ -133,7 +133,7 @@ public class ModifyAppointmentScreenController implements Initializable {
             }
         }
 
-        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startLocalDate = LocalDate.parse(startDate, start);
         LocalDateTime startLocalDateTime = LocalDateTime.of(
                 startLocalDate.getYear(),
@@ -142,7 +142,7 @@ public class ModifyAppointmentScreenController implements Initializable {
                 Integer.parseInt(startTime),
                 Integer.parseInt(startMinutes));
 
-        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate endLocalDate = LocalDate.parse(endDate, end);
         LocalDateTime endLocalDateTime = LocalDateTime.of(
                 endLocalDate.getYear(),
@@ -203,8 +203,8 @@ public class ModifyAppointmentScreenController implements Initializable {
                 preparedStatement.setString(2, description);
                 preparedStatement.setString(3, location);
                 preparedStatement.setString(4, type);
-                preparedStatement.setObject(5, startUTC);
-                preparedStatement.setObject(6, endUTC);
+                preparedStatement.setTimestamp(5, Timestamp.valueOf(startUTC.toLocalDateTime()));
+                preparedStatement.setTimestamp(6, Timestamp.valueOf(endUTC.toLocalDateTime()));
                 preparedStatement.setTimestamp(7, lastUpdate);
                 preparedStatement.setString(8, lastUpdatedBy);
                 preparedStatement.setInt(9, Integer.parseInt(customerID));
@@ -315,19 +315,19 @@ public class ModifyAppointmentScreenController implements Initializable {
         ZonedDateTime startSystemZone = ZonedDateTime.of(selectedAppointmentStartDate, systemZone);
         ZonedDateTime endSystemZone = ZonedDateTime.of(selectedAppointmentEndDate, systemZone);
 
-        DateTimeFormatter startFormatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter startFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedStart = startSystemZone.format(startFormatter);
         LocalDate startDatePickerDate = LocalDate.parse(formattedStart, startFormatter);
         startDatePicker.setValue(startDatePickerDate);
         startTimeComboBox.getSelectionModel().select(startSystemZone.getHour());
-        startMinutesComboBox.getSelectionModel().select(startSystemZone.getMinute());
+        startMinutesComboBox.setValue(startSystemZone.getMinute());
 
-        DateTimeFormatter endFormatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter endFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedEnd = endSystemZone.format(endFormatter);
         LocalDate endDatePickerDate = LocalDate.parse(formattedEnd, endFormatter);
         endDatePicker.setValue(endDatePickerDate);
         endTimeComboBox.getSelectionModel().select(endSystemZone.getHour());
-        endMinutesComboBox.getSelectionModel().select(endSystemZone.getMinute());
+        endMinutesComboBox.setValue(endSystemZone.getMinute());
 
         customerIDTextField.setText(String.valueOf(selectedAppointment.getCustomerId()));
         userIDTextField.setText(String.valueOf(selectedAppointment.getUserId()));

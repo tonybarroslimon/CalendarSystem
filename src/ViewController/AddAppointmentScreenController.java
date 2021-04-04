@@ -127,7 +127,7 @@ public class AddAppointmentScreenController implements Initializable {
             }
         }
 
-        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startLocalDate = LocalDate.parse(startDate, start);
         LocalDateTime startLocalDateTime = LocalDateTime.of(
                 startLocalDate.getYear(),
@@ -136,7 +136,7 @@ public class AddAppointmentScreenController implements Initializable {
                 Integer.parseInt(startTime),
                 Integer.parseInt(startMinutes));
 
-        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate endLocalDate = LocalDate.parse(endDate, end);
         LocalDateTime endLocalDateTime = LocalDateTime.of(
                 endLocalDate.getYear(),
@@ -197,9 +197,9 @@ public class AddAppointmentScreenController implements Initializable {
                 preparedStatement.setString(2, description);
                 preparedStatement.setString(3, location);
                 preparedStatement.setString(4, type);
-                preparedStatement.setObject(5, startUTC);
-                preparedStatement.setObject(6, endUTC);
-                preparedStatement.setObject(7, createDateUTC);
+                preparedStatement.setTimestamp(5, Timestamp.valueOf(startUTC.toLocalDateTime()));
+                preparedStatement.setTimestamp(6, Timestamp.valueOf(endUTC.toLocalDateTime()));
+                preparedStatement.setTimestamp(7, Timestamp.valueOf(createDateUTC.toLocalDateTime()));
                 preparedStatement.setString(8, createdBy);
                 preparedStatement.setTimestamp(9, lastUpdate);
                 preparedStatement.setString(10, lastUpdatedBy);

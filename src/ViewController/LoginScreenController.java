@@ -47,6 +47,7 @@ public class LoginScreenController implements Initializable {
     @FXML private String systemLanguage = localLanguage.getLanguage();
     @FXML private ResultSet loginResultSet;
     @FXML private Boolean loginResultBoolean = false;
+    @FXML private Boolean noAppointment = true;
     private static Users activeUser;
     @FXML private ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
     @FXML private ResultSet appointmentsResultSet;
@@ -194,6 +195,7 @@ public class LoginScreenController implements Initializable {
                     ZonedDateTime zonedNow = ZonedDateTime.now();
 
                     if (zonedStartDateTime.isBefore(fifteenMinutesFromNow) && zonedStartDateTime.isAfter(zonedNow)) {
+                        noAppointment = false;
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("New Appointments");
                         alert.setHeaderText("Upcoming Appointments");
@@ -201,13 +203,15 @@ public class LoginScreenController implements Initializable {
                                 + "\nTitle: " + appointmentStarts.getTitle()
                                 + "\nStart Time: " + zonedStartDateTime.toString());
                         alert.showAndWait();
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("New Appointments");
-                        alert.setHeaderText("Upcoming Appointments");
-                        alert.setContentText("No upcoming appointments");
-                        alert.showAndWait();
                     }
+                }
+
+                if (noAppointment == true) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("New Appointments");
+                    alert.setHeaderText("Upcoming Appointments");
+                    alert.setContentText("No upcoming appointments");
+                    alert.showAndWait();
                 }
             } catch  (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();

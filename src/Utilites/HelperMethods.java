@@ -223,7 +223,7 @@ public class HelperMethods {
 
         overlappingAppointments = false;
 
-        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter start = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startLocalDate = LocalDate.parse(startDate, start);
         LocalDateTime startLocalDateTime = LocalDateTime.of(
                 startLocalDate.getYear(),
@@ -232,7 +232,7 @@ public class HelperMethods {
                 Integer.parseInt(startTime),
                 Integer.parseInt(startMinutes));
 
-        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+        DateTimeFormatter end = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate endLocalDate = LocalDate.parse(endDate, end);
         LocalDateTime endLocalDateTime = LocalDateTime.of(
                 endLocalDate.getYear(),
