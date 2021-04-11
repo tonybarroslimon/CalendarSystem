@@ -343,3 +343,105 @@ INFO:
 Mar 30, 2021 12:38:00 AM ViewController.LoginScreenController writeToFile
 INFO: 
 2021-03-30T07:38:00.707883Z Login Successful
+Apr 03, 2021 8:24:36 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:24:36.876025Z Login Successful
+Apr 03, 2021 8:33:44 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:33:44.458437Z Login Successful
+Apr 03, 2021 8:35:03 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:35:03.195994Z Login Successful
+Apr 03, 2021 8:42:28 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:42:28.409286Z Login Successful
+Apr 03, 2021 8:44:33 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:44:33.070138Z Login Successful
+Apr 03, 2021 8:48:41 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:48:41.923105Z Login Successful
+Apr 03, 2021 8:50:36 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:50:36.436958Z Login Successful
+Apr 03, 2021 8:55:16 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:55:16.368030Z Login Successful
+Apr 03, 2021 8:56:33 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T15:56:33.636796Z Login Successful
+Apr 03, 2021 9:00:04 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:00:04.818703Z Login Successful
+Apr 03, 2021 9:02:40 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:02:40.395319Z Login Successful
+Apr 03, 2021 9:04:15 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:04:15.521975Z Login Successful
+Apr 03, 2021 9:13:20 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:13:20.850889Z Login Successful
+Apr 03, 2021 9:16:43 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:16:43.072708Z Login Successful
+Apr 03, 2021 9:17:52 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:17:52.577649Z Login Successful
+Apr 03, 2021 9:21:11 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-03T16:21:11.486213Z Login Successful
+Apr 04, 2021 8:34:24 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T15:34:24.333745Z Login Successful
+Apr 04, 2021 8:36:42 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T15:36:42.664123Z Login Successful
+Apr 04, 2021 8:54:49 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T15:54:49.424910Z Login Successful
+Apr 04, 2021 9:14:30 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T16:14:30.095971Z Login Successful
+Apr 04, 2021 9:23:25 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T16:23:25.944579Z Login Successful
+Apr 04, 2021 10:16:21 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:16:21.423672Z Login Successful
+Apr 04, 2021 10:23:36 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:23:36.879297Z Login Successful
+Apr 04, 2021 10:26:58 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:26:58.579324Z Login Successful
+Apr 04, 2021 10:34:42 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:34:42.932270Z Login Successful
+Apr 04, 2021 10:40:19 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:40:19.065206Z Login Successful
+Apr 04, 2021 10:46:16 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:46:16.600755Z Login Successful
+Apr 04, 2021 10:47:57 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:47:57.603642Z Login Successful
+Apr 04, 2021 10:53:25 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:53:25.688641Z Login Successful
+Apr 04, 2021 10:57:49 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T17:57:49.850245Z Login Successful
+Apr 04, 2021 11:00:40 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T18:00:40.228178Z Login Successful
+Apr 04, 2021 11:01:35 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T18:01:35.602451Z Login Successful
+Apr 04, 2021 11:06:07 AM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T18:06:07.119255Z Login Successful
+Apr 04, 2021 12:31:34 PM ViewController.LoginScreenController writeToFile
+INFO: 
+2021-04-04T19:31:34.780267Z Login Successful
